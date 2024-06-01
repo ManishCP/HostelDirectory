@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HostelDirectoryMvvM.Views"
-             mc:Ignorable="d" Height="368" Width="417">
+             mc:Ignorable="d" Height="368" Width="521">
     <Grid Margin="5,8,8,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -76,7 +76,24 @@
         <DataGrid Name="dgStudents"
                   AutoGenerateColumns="False"
                   Grid.Row="7"
-                  Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" />
+                  Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
+                  ItemsSource="{Binding Path= StudentsList}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Student Id"
+                                  Width="auto"
+                                  Binding="{Binding Path=Id}" />
+                <DataGridTextColumn Header="Student Name"
+                      Width="auto"
+                      Binding="{Binding Path=Name}" />
+                <DataGridTextColumn Header="Student Age"
+                      Width="auto"
+                      Binding="{Binding Path=Age}" />
+                <DataGridTextColumn Header="Student Room Number"
+                      Width="auto"
+                      Binding="{Binding Path=RoomNumber}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

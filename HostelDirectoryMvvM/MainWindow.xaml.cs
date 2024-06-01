@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using HostelDirectoryMvvM.ViewModels;
 namespace HostelDirectoryMvvM
 {
     /// <summary>
@@ -20,9 +21,13 @@ namespace HostelDirectoryMvvM
     /// </summary>
     public partial class MainWindow : Window
     {
+        StudentViewModel ViewModel;
         public MainWindow()
         {
             InitializeComponent();
+            ViewModel = new StudentViewModel();
+            this.DataContext = ViewModel;
+
         }
     }
 }
