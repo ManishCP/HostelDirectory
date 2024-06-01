@@ -31,6 +31,7 @@ namespace HostelDirectoryMvvM.ViewModels
             CurrentStudent = new Student();
             saveCommand = new RelayCommand(Save);
             searchCommand = new RelayCommand(Search);
+            updateCommand = new RelayCommand(Update);
         }
 
         #region DisplayOperation
@@ -93,6 +94,8 @@ namespace HostelDirectoryMvvM.ViewModels
         }
         #endregion
 
+        #region SearchOperation
+
         private RelayCommand searchCommand;
 
         public RelayCommand SearchCommand
@@ -116,12 +119,44 @@ namespace HostelDirectoryMvvM.ViewModels
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                Message = ex.Message;
             }
         }
+        #endregion
+
+        #region UpdateOperation
+        private RelayCommand updateCommand;
+
+        public RelayCommand UpdateCommand
+        {
+            get { return updateCommand; }
+        }
+        public void Update()
+        {
+            try
+            {
+                var IsUpdated = ObjStudentService.Update(CurrentStudent);
+                if (IsUpdated)
+                {
+                    Message = "Student Info Updated";
+                    LoadData();
+                }
+                else
+                {
+                    Message = "Could not Update";
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                Message = ex.Message;
+            }
+        }
+        #endregion
 
 
     }

@@ -70,7 +70,8 @@
                     Content="SEARCH" Margin="5,8,8,5" Padding="3,3,3,3"
                     Command="{Binding Path=SearchCommand}"/>
             <Button Name="btnUpdate"
-                    Content="UPDATE" Margin="5,8,8,5" Padding="3,3,3,3" />
+                    Content="UPDATE" Margin="5,8,8,5" Padding="3,3,3,3" 
+                    Command="{Binding Path=UpdateCommand}"/>
             <Button Name="btnDelete"
                     Content="DELETE" Margin="5,8,8,5" Padding="3,3,3,3" />
         </StackPanel>

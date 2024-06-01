@@ -40,6 +40,7 @@ namespace HostelDirectoryMvvM.Models
                 {
                     ObjStudentsList[index].Name = objNewStudentToUpdate.Name;
                     ObjStudentsList[index].Age = objNewStudentToUpdate.Age;
+                    ObjStudentsList[index].RoomNumber = objNewStudentToUpdate.RoomNumber;
                     IsUpdated = true;
                     break;
                 }
