@@ -30,6 +30,7 @@ namespace HostelDirectoryMvvM.ViewModels
             LoadData();
             CurrentStudent = new Student();
             saveCommand = new RelayCommand(Save);
+            searchCommand = new RelayCommand(Search);
         }
 
         #region DisplayOperation
@@ -65,7 +66,7 @@ namespace HostelDirectoryMvvM.ViewModels
         }
 
 
-
+        #region SaveOperation
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
         {
@@ -90,5 +91,39 @@ namespace HostelDirectoryMvvM.ViewModels
             }
 
         }
+        #endregion
+
+        private RelayCommand searchCommand;
+
+        public RelayCommand SearchCommand
+        {
+            get { return searchCommand; }
+        }
+        public void Search()
+        {
+            try
+            {
+                var ObjStudent = ObjStudentService.Search(CurrentStudent.Id);
+                if (ObjStudent != null)
+                {
+                    CurrentStudent.Name = ObjStudent.Name;
+                    CurrentStudent.Age = ObjStudent.Age;
+                    CurrentStudent.RoomNumber = ObjStudent.RoomNumber;
+                }
+                else
+                {
+                    Message = "Student Not Found";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
+
 }
