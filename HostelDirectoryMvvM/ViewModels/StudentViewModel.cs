@@ -32,6 +32,7 @@ namespace HostelDirectoryMvvM.ViewModels
             saveCommand = new RelayCommand(Save);
             searchCommand = new RelayCommand(Search);
             updateCommand = new RelayCommand(Update);
+            deleteCommand = new RelayCommand(Delete);
         }
 
         #region DisplayOperation
@@ -158,7 +159,39 @@ namespace HostelDirectoryMvvM.ViewModels
         }
         #endregion
 
+        #region DeleteOperation
+        private RelayCommand deleteCommand;
 
+        public RelayCommand DeleteCommand
+        {
+            get { return deleteCommand; }
+            set { deleteCommand = value; }
+        }
+        public void Delete()
+        {
+            try
+            {
+                var IsDelete = ObjStudentService.Delete(CurrentStudent.Id);
+                if (IsDelete)
+                {
+                    Message = "Student Records Deleted";
+                    LoadData();
+                }
+                else
+                {
+                    Message = "Could Not Delete";
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Message = ex.Message;
+            }
+
+        }
+
+        #endregion
     }
 
 }

@@ -73,7 +73,8 @@
                     Content="UPDATE" Margin="5,8,8,5" Padding="3,3,3,3" 
                     Command="{Binding Path=UpdateCommand}"/>
             <Button Name="btnDelete"
-                    Content="DELETE" Margin="5,8,8,5" Padding="3,3,3,3" />
+                    Content="DELETE" Margin="5,8,8,5" Padding="3,3,3,3" 
+                    Command="{Binding Path=DeleteCommand}"/>
         </StackPanel>
 
         <TextBlock Name="txtBlockMessage"
