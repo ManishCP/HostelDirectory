@@ -11,10 +11,10 @@ namespace HostelDirectoryMvvM.Models
         private static List<Student> ObjStudentsList;
         public StudentService() 
         {
-            ObjStudentsList = new List<Student>();
+            ObjStudentsList = new List<Student>
             {
-                new Student { Id = 101, Name = "Manish", Age = 23, RoomNumber = 508 };
-            }
+                new Student { Id = 101, Name = "Manish", Age = 23, RoomNumber = 508 }
+            };
         }
 
         public List<Student> GetAll()
@@ -24,7 +24,7 @@ namespace HostelDirectoryMvvM.Models
 
         public bool Add(Student objNewStudent) 
         {
-            if ((objNewStudent.Age > 21 || objNewStudent.Age < 25))
+            if ((objNewStudent.Age < 21 || objNewStudent.Age > 25))
                 throw new ArgumentException("Invalid age limit for the student");
 
             ObjStudentsList.Add(objNewStudent);
