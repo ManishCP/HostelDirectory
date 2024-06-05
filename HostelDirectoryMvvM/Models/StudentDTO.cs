@@ -18,11 +18,11 @@ namespace HostelDirectoryMvvM.Models
         }
 
 
-        private int id;
-        public int Id
+        private string studentID;
+        public string StudentID
         {
-            get { return id; }
-            set { id = value; OnPropertyChanged("Id"); }
+            get { return studentID; }
+            set { studentID = value; OnPropertyChanged("Id"); }
         }
 
 

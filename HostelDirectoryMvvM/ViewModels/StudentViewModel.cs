@@ -72,13 +72,20 @@ namespace HostelDirectoryMvvM.ViewModels
         private RelayCommand saveCommand;
         public RelayCommand SaveCommand
         {
-            get { return saveCommand; } //Since it's not two data binding and only one way we do not need setters
+            get { return saveCommand; } 
         }
 
         public void Save()
         {
             try
             {
+                // Validate CurrentStudent before attempting to save
+                if (CurrentStudent == null || string.IsNullOrEmpty(CurrentStudent.Name) || CurrentStudent.Age <= 0 || string.IsNullOrEmpty(CurrentStudent.StudentID) || CurrentStudent.RoomNumber <= 0 )
+                {
+                    Message = "Missing or invalid student information. Please check all fields.";
+                    return; 
+                } 
+
                 var IsSaved = ObjStudentService.Add(CurrentStudent);
                 LoadData();
                 if (IsSaved)
@@ -107,7 +114,7 @@ namespace HostelDirectoryMvvM.ViewModels
         {
             try
             {
-                var ObjStudent = ObjStudentService.Search(CurrentStudent.Id);
+                var ObjStudent = ObjStudentService.Search(CurrentStudent.Name);
                 if (ObjStudent != null)
                 {
                     CurrentStudent.Name = ObjStudent.Name;
@@ -171,7 +178,7 @@ namespace HostelDirectoryMvvM.ViewModels
         {
             try
             {
-                var IsDelete = ObjStudentService.Delete(CurrentStudent.Id);
+                var IsDelete = ObjStudentService.Delete(CurrentStudent.StudentID);
                 if (IsDelete)
                 {
                     Message = "Student Records Deleted";

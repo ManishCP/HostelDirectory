@@ -9,11 +9,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Age" Type="int" Nullable="false" />
           <Property Name="RoomNumber" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="varchar" MaxLength="20" />
         </EntityType>
+        <Function Name="AddStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
+          <Parameter Name="RoomNumber" Type="int" Mode="In" />
+          <Parameter Name="StudentID" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="HostelDirectoryDemoDbModelStoreContainer">
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -26,30 +33,39 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
           <Property Name="RoomNumber" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="HostelDirectoryDemoDbEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HostelDirectoryDemoDbEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Students" EntityType="Self.Student" />
+          <FunctionImport Name="AddStudent">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="RoomNumber" Mode="In" Type="Int32" />
+            <Parameter Name="StudentID" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HostelDirectoryDemoDbModelStoreContainer" CdmEntityContainer="HostelDirectoryDemoDbEntities1">
+        <EntityContainerMapping StorageEntityContainer="HostelDirectoryDemoDbModelStoreContainer" CdmEntityContainer="HostelDirectoryDemoDbEntities2">
           <EntitySetMapping Name="Students">
             <EntityTypeMapping TypeName="HostelDirectoryDemoDbModel.Student">
               <MappingFragment StoreEntitySet="Student">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddStudent" FunctionName="HostelDirectoryDemoDbModel.Store.AddStudent" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

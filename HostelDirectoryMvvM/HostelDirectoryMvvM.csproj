@@ -68,25 +68,31 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Models\HostelDirectoryDemoDb.Context.cs">
+    <Compile Include="Models\HostelDirectoryMvvM.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>HostelDirectoryDemoDb.Context.tt</DependentUpon>
+      <DependentUpon>HostelDirectoryMvvM.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HostelDirectoryDemoDb.cs">
+    <Compile Include="Models\HostelDirectoryMvvM.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>HostelDirectoryDemoDb.tt</DependentUpon>
+      <DependentUpon>HostelDirectoryMvvM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HostelDirectoryDemoDb.Designer.cs">
+    <Compile Include="Models\HostelDirectoryMvvM.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>HostelDirectoryDemoDb.edmx</DependentUpon>
+      <DependentUpon>HostelDirectoryMvvM.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Student.cs">
-      <DependentUpon>HostelDirectoryDemoDb.tt</DependentUpon>
+      <DependentUpon>HostelDirectoryMvvM.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\StudentViewModel.cs" />
+    <Compile Include="Views\StudentEditorView.xaml.cs">
+      <DependentUpon>StudentEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StudentsListView.xaml.cs">
+      <DependentUpon>StudentsListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StudentView.xaml.cs">
       <DependentUpon>StudentView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +108,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\StandardStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StudentEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StudentsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\StudentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,12 +145,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Models\HostelDirectoryDemoDb.edmx">
+    <EntityDeploy Include="Models\HostelDirectoryMvvM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HostelDirectoryDemoDb.Designer.cs</LastGenOutput>
+      <LastGenOutput>HostelDirectoryMvvM.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\HostelDirectoryDemoDb.edmx.diagram">
-      <DependentUpon>HostelDirectoryDemoDb.edmx</DependentUpon>
+    <None Include="Models\HostelDirectoryMvvM.edmx.diagram">
+      <DependentUpon>HostelDirectoryMvvM.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -147,15 +165,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\HostelDirectoryDemoDb.Context.tt">
+    <Content Include="Models\HostelDirectoryMvvM.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HostelDirectoryDemoDb.edmx</DependentUpon>
-      <LastGenOutput>HostelDirectoryDemoDb.Context.cs</LastGenOutput>
+      <DependentUpon>HostelDirectoryMvvM.edmx</DependentUpon>
+      <LastGenOutput>HostelDirectoryMvvM.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\HostelDirectoryDemoDb.tt">
+    <Content Include="Models\HostelDirectoryMvvM.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HostelDirectoryDemoDb.edmx</DependentUpon>
-      <LastGenOutput>HostelDirectoryDemoDb.cs</LastGenOutput>
+      <DependentUpon>HostelDirectoryMvvM.edmx</DependentUpon>
+      <LastGenOutput>HostelDirectoryMvvM.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

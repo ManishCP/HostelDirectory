@@ -46,7 +46,7 @@
         <TextBox Name="txtId"
                  Grid.Row="1"
                  Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
-                 Text="{Binding Path=CurrentStudent.Id, Mode=TwoWay}"/>
+                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"/>
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
@@ -90,7 +90,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Student Id"
                                   Width="auto"
-                                  Binding="{Binding Path=Id}" />
+                                  Binding="{Binding Path=StudentID}" />
                 <DataGridTextColumn Header="Student Name"
                       Width="auto"
                       Binding="{Binding Path=Name}" />

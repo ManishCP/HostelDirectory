@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="Heading1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="28"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#2E3A87"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Margin" Value="3"/>
+    </Style>
+
+    <Style x:Key="Heading2" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="#3A539B"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Margin" Value="3"/>
+    </Style>
+
+    <Style x:Key="Heading3" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="#34495E"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Margin" Value="3"/>
+    </Style>
+
+    <!-- Topic Style -->
+    <Style x:Key="TopicText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="Foreground" Value="#2C3E50"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+    </Style>
+
+    <!-- Button Style -->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="#D3D3D3"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="3">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <!-- TextBox Style -->
+    <Style TargetType="TextBox">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="BorderBrush" Value="#BDC3C7"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#2C3E50"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+    <!-- DataGrid Style -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="#BDC3C7"/>
+        <Setter Property="Foreground" Value="#2C3E50"/>
+        <Setter Property="RowBackground" Value="#ECF0F1"/>
+        <Setter Property="AlternatingRowBackground" Value="#D5DBDB"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="#D5DBDB"/>
+        <Setter Property="VerticalGridLinesBrush" Value="#D5DBDB"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="5"/>
+    </Style>
+
+</ResourceDictionary>
