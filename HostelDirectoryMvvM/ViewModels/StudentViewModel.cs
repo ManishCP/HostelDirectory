@@ -28,7 +28,7 @@ namespace HostelDirectoryMvvM.ViewModels
         {
             ObjStudentService = new StudentService();
             LoadData();
-            CurrentStudent = new Student();
+            CurrentStudent = new StudentDTO();
             saveCommand = new RelayCommand(Save);
             searchCommand = new RelayCommand(Search);
             updateCommand = new RelayCommand(Update);
@@ -37,9 +37,9 @@ namespace HostelDirectoryMvvM.ViewModels
 
         #region DisplayOperation
 
-        private ObservableCollection<Student> studentsList;
+        private ObservableCollection<StudentDTO> studentsList;
 
-        public ObservableCollection<Student> StudentsList
+        public ObservableCollection<StudentDTO> StudentsList
         {
             get { return studentsList; }
             set { studentsList = value; OnPropertyChanged("StudentsList");}
@@ -47,14 +47,14 @@ namespace HostelDirectoryMvvM.ViewModels
 
         private void LoadData() //Helper method to call the Getall method and puts it in the Student List
         {
-            StudentsList = new ObservableCollection<Student>(ObjStudentService.GetAll());  //Previously implemented normal List so we were not able to observe the changes
+            StudentsList = new ObservableCollection<StudentDTO>(ObjStudentService.GetAll());  //Previously implemented normal List so we were not able to observe the changes
         }
 
         #endregion
 
-        private Student currentStudent;
+        private StudentDTO currentStudent;
 
-        public Student CurrentStudent
+        public StudentDTO CurrentStudent
         {
             get { return currentStudent; }
             set { currentStudent = value; OnPropertyChanged("CurrentStudent"); }
