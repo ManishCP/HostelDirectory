@@ -82,4 +82,60 @@
         <Setter Property="Padding" Value="5"/>
     </Style>
 
+    <!-- Style for TextBlocks used as headers in the list -->
+    <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <!-- Style for TextBlocks used in the list items (students' details) -->
+    <Style x:Key="StudentTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <!-- Style for the Remove button in each list item with hover and pressed effects -->
+    <Style x:Key="RemoveButtonStyle" TargetType="Button">
+        <Setter Property="Content" Value="Remove"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="#DC143C"/>
+        <!-- Sets the default background color to red -->
+        <Setter Property="Foreground" Value="White"/>
+        <!-- Sets the default foreground color to white -->
+        <Setter Property="BorderBrush" Value="#8B0000"/>
+        <!-- Sets the border color to dark red -->
+        <Setter Property="BorderThickness" Value="1"/>
+        <!-- Sets the border thickness -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Trigger for mouse over -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#8B0000"/>
+                            <!-- Slightly darker red on hover -->
+                        </Trigger>
+                        <!-- Trigger for button pressed -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#800000"/>
+                            <!-- Even darker red on click -->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Style for the Border around each list item -->
+    <Style x:Key="StudentBorderStyle" TargetType="Border">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
 </ResourceDictionary>

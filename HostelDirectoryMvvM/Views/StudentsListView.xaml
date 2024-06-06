@@ -3,11 +3,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HostelDirectoryMvvM.Views"       
+             xmlns:local="clr-namespace:HostelDirectoryMvvM.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    
+             d:DesignHeight="450" d:DesignWidth="550"
+             Background="#F0F0F0">
+
+    <UserControl.Resources>
+        <local:StudentsListViewModel x:Key="ViewModel"/>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <Binding Source="{StaticResource ViewModel}"/>
+    </UserControl.DataContext>
+
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Hostel Directory"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Style="{StaticResource Heading2}"
+                   HorizontalAlignment="Center" />
+
+        <TextBlock Text="Filter"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Style="{StaticResource Heading3}"/>
+        <TextBox Name="txtFilter"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Text="{Binding Path=Filter, Mode=TwoWay}"/>
+
+        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                       HorizontalAlignment="Center" Margin="10,10,10,0">
+            <TextBlock Text="Name" 
+                       Width="200" 
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock Text="Room Number" 
+                       Width="100" 
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock Text="Age" 
+                       Width="50" 
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+            <TextBlock Text="Delete Record" 
+                       Width="100" 
+                       Style="{StaticResource HeaderTextBlockStyle}"/>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+            <ListBox x:Name="StudentListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,10" 
+                     ItemsSource="{Binding Students}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource StudentBorderStyle}">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{Binding Name}" Width="200" Style="{StaticResource StudentTextBlockStyle}"/>
+                                <TextBlock Text="{Binding RoomNumber}" 
+                                           Width="100"                                            
+                                           Style="{StaticResource StudentTextBlockStyle}"/>
+                                <TextBlock Text="{Binding Age}" Width="50" Style="{StaticResource StudentTextBlockStyle}"/>
+                                <Button Style="{StaticResource RemoveButtonStyle}" 
+                                        Command="{Binding DataContext.RemoveStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                        CommandParameter="{Binding}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
     </Grid>
 </UserControl>

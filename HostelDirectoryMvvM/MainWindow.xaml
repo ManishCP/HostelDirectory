@@ -7,9 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450" 
-        Width="800" xmlns:vw="clr-namespace:HostelDirectoryMvvM.Views">
+        Width="1000" xmlns:vw="clr-namespace:HostelDirectoryMvvM.Views">
 
     <Grid>
-        <vw:StudentView></vw:StudentView>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="250" Width="390*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition MinWidth="250" Width="300*"/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+
+        <vw:StudentsListView Grid.Column="0" 
+                             Grid.ColumnSpan="2" 
+                             Margin="0,0,4,0"
+                             HorizontalAlignment="Right"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <vw:StudentEditorView Grid.Column="1" 
+                              Grid.ColumnSpan="2"
+                              HorizontalAlignment="Left"
+                              Margin="4,0,0,0" Loaded="StudentEditorView_Loaded" Width="424"/>
     </Grid>
 </Window>

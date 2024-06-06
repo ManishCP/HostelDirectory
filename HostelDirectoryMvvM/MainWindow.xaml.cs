@@ -29,5 +29,11 @@ namespace HostelDirectoryMvvM
             this.DataContext = ViewModel;
 
         }
+
+        private void StudentEditorView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Your initialization or logic when StudentEditorView is loaded
+        }
+
     }
 }

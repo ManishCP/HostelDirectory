@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:HostelDirectoryMvvM.Views"
              xmlns:app="clr-namespace:HostelDirectoryMvvM"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="400"
-             MinWidth ="600"
+             d:DesignHeight="450" d:DesignWidth="440"
              Background="#F0F0F0">
 
 
@@ -50,11 +49,15 @@
                    Grid.Row="4"
                    Grid.Column="0" 
                    Style="{StaticResource Heading3}"/>
+        <TextBlock Text="Message"
+                   Grid.Row="6"
+                   Grid.Column="0" 
+                   Style="{StaticResource Heading3}"/>
 
         <TextBox Name="txtId"
                  Grid.Row="1"
                  Grid.Column="1"
-                 Text="{Binding Path=CurrentStudent.Id, Mode=TwoWay}"/>
+                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"/>
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" 
@@ -86,8 +89,8 @@
         </StackPanel>
 
         <TextBlock Name="txtBlockMessage"
-               Grid.Row="6"
-               Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
-               Text="{Binding Path=Message}"/>
+                   Grid.Row="6"
+                   Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
+                   Text="{Binding Path=Message}"/>
     </Grid>
 </UserControl>

@@ -29,10 +29,10 @@ namespace HostelDirectoryMvvM.ViewModels
             ObjStudentService = new StudentService();
             LoadData();
             CurrentStudent = new StudentDTO();
-            saveCommand = new RelayCommand(Save);
-            searchCommand = new RelayCommand(Search);
-            updateCommand = new RelayCommand(Update);
-            deleteCommand = new RelayCommand(Delete);
+            //saveCommand = new RelayCommand(Save);
+            //searchCommand = new RelayCommand(Search);
+            //updateCommand = new RelayCommand(Update);
+            //deleteCommand = new RelayCommand(Delete);
         }
 
         #region DisplayOperation
