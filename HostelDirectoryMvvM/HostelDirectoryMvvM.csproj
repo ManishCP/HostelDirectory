@@ -86,7 +86,6 @@
     <Compile Include="Models\Student.cs">
       <DependentUpon>HostelDirectoryMvvM.tt</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\StudentsListViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\StudentEditorView.xaml.cs">

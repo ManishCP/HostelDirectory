@@ -8,15 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="550"
              Background="#F0F0F0">
 
-    <UserControl.Resources>
-        <local:StudentsListViewModel x:Key="ViewModel"/>
-    </UserControl.Resources>
-
-    <UserControl.DataContext>
-        <Binding Source="{StaticResource ViewModel}"/>
-    </UserControl.DataContext>
-
-    <Grid>
+   <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
@@ -63,24 +55,24 @@
         
         <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
             <ListBox x:Name="StudentListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,10" 
-                     ItemsSource="{Binding Students}">
+                     ItemsSource="{Binding Path= StudentsList, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource StudentBorderStyle}">
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{Binding Name}" Width="200" Style="{StaticResource StudentTextBlockStyle}"/>
-                                <TextBlock Text="{Binding RoomNumber}" 
+                                <TextBlock Text="{Binding Path=Name}" Width="200" Style="{StaticResource StudentTextBlockStyle}"/>
+                                <TextBlock Text="{Binding Path=RoomNumber}" 
                                            Width="100"                                            
                                            Style="{StaticResource StudentTextBlockStyle}"/>
-                                <TextBlock Text="{Binding Age}" Width="50" Style="{StaticResource StudentTextBlockStyle}"/>
+                                <TextBlock Text="{Binding Path=Age}" Width="50" Style="{StaticResource StudentTextBlockStyle}"/>
                                 <Button Style="{StaticResource RemoveButtonStyle}" 
-                                        Command="{Binding DataContext.RemoveStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                                         CommandParameter="{Binding}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </ScrollViewer>
+        </ScrollViewer>        
     </Grid>
 </UserControl>
