@@ -4,27 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HostelDirectoryMvvM"
+        xmlns:vw="clr-namespace:HostelDirectoryMvvM.Views"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="450" 
-        Width="1000" xmlns:vw="clr-namespace:HostelDirectoryMvvM.Views">
+        MinHeight="450"
+        MinWidth="1000">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="250" Width="390*"/>
+            <ColumnDefinition MinWidth="550" Width="3*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition MinWidth="250" Width="300*"/>
-            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition MinWidth="450" Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <vw:StudentsListView Grid.Column="0" 
-                             Grid.ColumnSpan="2" 
-                             Margin="0,0,4,0"
-                             HorizontalAlignment="Right"/>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
-        <vw:StudentEditorView Grid.Column="1" 
-                              Grid.ColumnSpan="2"
-                              HorizontalAlignment="Left"
-                              Margin="4,0,0,0" Loaded="StudentEditorView_Loaded" Width="424"/>
+                             Margin="0,0,4,0"/>
+
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
+
+        <vw:StudentEditorView Grid.Column="2" 
+                              Margin="4,0,0,0"/>
     </Grid>
 </Window>

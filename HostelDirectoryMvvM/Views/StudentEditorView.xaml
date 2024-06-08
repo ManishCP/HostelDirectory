@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="HostelDirectoryMvvM.Views.StudentEditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HostelDirectoryMvvM.Views"
              xmlns:app="clr-namespace:HostelDirectoryMvvM"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="440"
+             Height="auto" Width="auto" MinWidth="450"
              Background="#F0F0F0">
 
 

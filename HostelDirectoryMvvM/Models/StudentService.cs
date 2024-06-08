@@ -68,64 +68,77 @@ namespace HostelDirectoryMvvM.Models
             return isAdded;
         }
 
-        public bool Update(StudentDTO objStudentToUpdate)
+        public bool Update(StudentDTO objUpdatedStudent)
         {
-            bool IsUpdated = false;
+            bool isUpdated = false;
+            if (objUpdatedStudent.Age < 21 || objUpdatedStudent.Age > 25)
+                throw new ArgumentException("Invalid age limit for student");
+
+            string sql = "EXEC UpdateStudent @Name, @Age, @RoomNumber";
 
             try
             {
-                var ObjStudent = ObjContext.Students.Find(objStudentToUpdate.StudentID);
-                ObjStudent.Name = objStudentToUpdate.Name;
-                ObjStudent.Age = objStudentToUpdate.Age;
-                ObjStudent.RoomNumber= objStudentToUpdate.RoomNumber;
+                var nameParam = new SqlParameter("@Name", objUpdatedStudent.Name);
+                var ageParam = new SqlParameter("@Age", objUpdatedStudent.Age);
+                var roomNumberParam = new SqlParameter("@RoomNumber", objUpdatedStudent.RoomNumber);
 
-                var NoOfRowsAffected = ObjContext.SaveChanges();
-                IsUpdated = NoOfRowsAffected > 0;
+                // Execute the stored procedure
+                int result = ObjContext.Database.ExecuteSqlCommand(sql, nameParam, ageParam, roomNumberParam);
+                isUpdated = result > 0;
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException("Failed to update student: " + ex.Message, ex);
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("An error occurred while updating the student.", ex);
             }
 
-
-            return IsUpdated;
+            return isUpdated;
         }
+
 
         public bool Delete(string studentId)
         {
-            bool IsDeleted = false;
+            bool isDeleted = false;
+
+            string sql = "EXEC DeleteStudent @Id";
+
             try
             {
-                var ObjStudentToDelete = ObjContext.Students.Find(studentId);
-                ObjContext.Students.Remove(ObjStudentToDelete);
-                var NoOfRowsAffected = ObjContext.SaveChanges();
-                IsDeleted = NoOfRowsAffected > 0;
+                var idParam = new SqlParameter("@Id", studentId);
+
+                // Execute the stored procedure
+                int result = ObjContext.Database.ExecuteSqlCommand(sql, idParam);
+                isDeleted = result > 0;
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException("Failed to delete student: " + ex.Message, ex);
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("An error occurred while deleting the student.", ex);
             }
-            return IsDeleted;
+
+            return isDeleted;
         }
 
-        public StudentDTO Search(string name)
+
+        public List<StudentDTO> Search(string searchTerm)
         {
-            StudentDTO ObjStudent = null;
+            List<StudentDTO> searchResults = new List<StudentDTO>();
 
             try
             {
-                var ObjStudentToFind = ObjContext.Students.Find(name);
-                if (ObjStudentToFind != null)
+                var ObjQuery = from student
+                               in ObjContext.Students
+                               where student.Name.Contains(searchTerm) || student.StudentID.Contains(searchTerm)
+                               select student;
+                foreach (var student in ObjQuery)
                 {
-                    ObjStudent = new StudentDTO()
-                    {
-                        StudentID = ObjStudentToFind.StudentID,
-                        Name = ObjStudentToFind.Name,
-                        Age = ObjStudentToFind.Age,
-                        RoomNumber = ObjStudentToFind.RoomNumber,
-                    };
+                    searchResults.Add(new StudentDTO { StudentID = student.StudentID, Name = student.Name, Age = student.Age, RoomNumber = student.RoomNumber });
                 }
             }
             catch (Exception ex)
@@ -133,8 +146,10 @@ namespace HostelDirectoryMvvM.Models
 
                 throw ex;
             }
-            return ObjStudent;
+
+            return searchResults;
         }
+
 
     }
 }
