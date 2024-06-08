@@ -90,6 +90,8 @@
     <Compile Include="Models\Student.cs">
       <DependentUpon>HostelDirectoryMvvM.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DeleteMessage.cs" />
+    <Compile Include="ViewModels\Messenger.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\StudentEditorView.xaml.cs">

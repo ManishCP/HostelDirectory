@@ -74,16 +74,17 @@ namespace HostelDirectoryMvvM.Models
             if (objUpdatedStudent.Age < 21 || objUpdatedStudent.Age > 25)
                 throw new ArgumentException("Invalid age limit for student");
 
-            string sql = "EXEC UpdateStudent @Name, @Age, @RoomNumber";
+            string sql = "EXEC UpdateStudent @Name, @Age, @RoomNumber, @StudentID";
 
             try
             {
                 var nameParam = new SqlParameter("@Name", objUpdatedStudent.Name);
                 var ageParam = new SqlParameter("@Age", objUpdatedStudent.Age);
                 var roomNumberParam = new SqlParameter("@RoomNumber", objUpdatedStudent.RoomNumber);
+                var idParam = new SqlParameter("@StudentID", objUpdatedStudent.StudentID);
 
                 // Execute the stored procedure
-                int result = ObjContext.Database.ExecuteSqlCommand(sql, nameParam, ageParam, roomNumberParam);
+                int result = ObjContext.Database.ExecuteSqlCommand(sql, nameParam, ageParam, roomNumberParam, idParam);
                 isUpdated = result > 0;
             }
             catch (SqlException ex)
@@ -103,15 +104,15 @@ namespace HostelDirectoryMvvM.Models
         {
             bool isDeleted = false;
 
-            string sql = "EXEC DeleteStudent @Id";
-
             try
             {
-                var idParam = new SqlParameter("@Id", studentId);
+                var student = ObjContext.Students.FirstOrDefault(s => s.StudentID == studentId);
+                if (student == null)
+                    throw new InvalidOperationException("Student not found");
 
-                // Execute the stored procedure
-                int result = ObjContext.Database.ExecuteSqlCommand(sql, idParam);
-                isDeleted = result > 0;
+                ObjContext.Students.Remove(student);
+                ObjContext.SaveChanges();
+                isDeleted = true;
             }
             catch (SqlException ex)
             {
