@@ -22,6 +22,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <!-- Header Text -->
         <TextBlock Text="Hostel Directory"
                    Grid.Row="0"
                    Grid.Column="0"
@@ -29,21 +30,26 @@
                    Style="{StaticResource Heading2}"
                    HorizontalAlignment="Center" />
 
+        <!-- Filter Label -->
         <TextBlock Text="Filter"
                    Grid.Row="1"
                    Grid.Column="0"
                    Style="{StaticResource Heading3}"/>
+
+        <!-- Filter TextBox with Binding to Filter Property and EventTrigger for TextChanged -->
         <TextBox Name="txtFilter"
                  Grid.Row="1"
                  Grid.Column="1"
                  Margin="10,0,10,10" 
-                 Text="{Binding Path=Filter, Mode=TwoWay}">
+                 Text="{Binding Path=Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
-            <i:EventTrigger EventName="TextChanged">
-                <i:InvokeCommandAction Command="{Binding FilterTextChangedCommand}" />
-            </i:EventTrigger>
-            </i:Interaction.Triggers></TextBox>
+                <i:EventTrigger EventName="TextChanged">
+                    <i:InvokeCommandAction Command="{Binding FilterTextChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
 
+        <!-- Column Headers -->
         <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
                        HorizontalAlignment="Center" Margin="10,10,10,0">
             <TextBlock Text="Name" 
@@ -60,6 +66,7 @@
                        Style="{StaticResource HeaderTextBlockStyle}"/>
         </StackPanel>
 
+        <!-- ScrollViewer for Student List -->
         <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
             <ListBox x:Name="StudentListBox" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,10"
                      ItemsSource="{Binding Path=FilteredStudents, Mode=TwoWay}"
