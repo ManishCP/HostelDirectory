@@ -46,7 +46,8 @@
         <TextBox Name="txtId"
                  Grid.Row="1"
                  Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
-                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"/>
+                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"
+                 IsReadOnly="{Binding Path=IsStudentIdReadOnly}"/>
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 

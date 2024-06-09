@@ -68,18 +68,26 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
     </Style>
 
-    <!-- DataGrid Style -->
-    <Style TargetType="DataGrid">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="#BDC3C7"/>
-        <Setter Property="Foreground" Value="#2C3E50"/>
-        <Setter Property="RowBackground" Value="#ECF0F1"/>
-        <Setter Property="AlternatingRowBackground" Value="#D5DBDB"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="#D5DBDB"/>
-        <Setter Property="VerticalGridLinesBrush" Value="#D5DBDB"/>
+    <!-- TextBox Style for Student ID -->
+    <Style x:Key="StudentIDTextBoxStyle" TargetType="TextBox">
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Margin" Value="5"/>
-        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="BorderBrush" Value="#BDC3C7"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="#2C3E50"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="True">
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="Foreground" Value="#A9A9A9"/>
+                <!-- Change text color to gray when read-only -->
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="False">
+                <Setter Property="IsReadOnly" Value="False"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Style for TextBlocks used as headers in the list -->
@@ -137,5 +145,8 @@
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="Margin" Value="5"/>
     </Style>
+
+
+    
 
 </ResourceDictionary>

@@ -57,7 +57,8 @@
         <TextBox Name="txtId"
                  Grid.Row="1"
                  Grid.Column="1"
-                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"/>
+                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"
+                 Style="{StaticResource StudentIDTextBoxStyle}"/>
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" 

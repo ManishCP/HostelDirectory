@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace HostelDirectoryMvvM.ViewModels
 {
@@ -25,6 +26,7 @@ namespace HostelDirectoryMvvM.ViewModels
             ObjStudentService = new StudentService();
             LoadData();
             CurrentStudent = new StudentDTO(); // Initialize with empty values
+            IsStudentIdReadOnly = false;
             saveCommand = new RelayCommand(Save);
             searchCommand = new RelayCommand(Search);
             updateCommand = new RelayCommand(Update);
@@ -54,8 +56,24 @@ namespace HostelDirectoryMvvM.ViewModels
         public StudentDTO CurrentStudent
         {
             get { return currentStudent; }
-            set { currentStudent = value; OnPropertyChanged(nameof(CurrentStudent)); }
+            set
+            {
+                if (currentStudent != value)
+                {
+                    currentStudent = value;
+                    OnPropertyChanged(nameof(CurrentStudent));
+                    IsStudentIdReadOnly = currentStudent.StudentID != null;
+                }
+            }
         }
+
+        private bool isStudentIdReadOnly;
+        public bool IsStudentIdReadOnly
+        {
+            get { return isStudentIdReadOnly; }
+            set { isStudentIdReadOnly = value; OnPropertyChanged(nameof(IsStudentIdReadOnly)); }
+        }
+
 
         public void ClearCurrentStudent()
         {
@@ -68,7 +86,8 @@ namespace HostelDirectoryMvvM.ViewModels
             if (sender is ListBoxItem item && item.IsSelected)
             {
                 item.IsSelected = false;
-                CurrentStudent = null;
+                CurrentStudent = new StudentDTO(); // Set to a new instance to indicate no item is selected
+                IsStudentIdReadOnly = false; // Set IsStudentIdReadOnly to false when no item is selected
                 Message = "Student deselected";
             }
         }
