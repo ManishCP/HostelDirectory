@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Linq;
 using System;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HostelDirectoryMvvM.ViewModels
 {
@@ -53,6 +55,22 @@ namespace HostelDirectoryMvvM.ViewModels
         {
             get { return currentStudent; }
             set { currentStudent = value; OnPropertyChanged(nameof(CurrentStudent)); }
+        }
+
+        public void ClearCurrentStudent()
+        {
+            CurrentStudent = new StudentDTO(); ;
+            Message = "Student deselected";
+        }
+
+        private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListBoxItem item && item.IsSelected)
+            {
+                item.IsSelected = false;
+                CurrentStudent = null;
+                Message = "Student deselected";
+            }
         }
 
         private string message;

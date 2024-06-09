@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:HostelDirectoryMvvM.ViewModels"
+             xmlns:behaviors="clr-namespace:HostelDirectoryMvvM.Behaviors"
              mc:Ignorable="d" 
              Height="auto" Width="auto" MinWidth="500"
              Background="#F0F0F0">
@@ -71,6 +72,9 @@
             <ListBox x:Name="StudentListBox" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,10"
                      ItemsSource="{Binding Path=FilteredStudents, Mode=TwoWay}"
                      SelectedItem="{Binding Path=CurrentStudent, Mode=TwoWay}">
+                <i:Interaction.Behaviors>
+                    <behaviors:ListBoxDeselectBehavior/>
+                </i:Interaction.Behaviors>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource StudentBorderStyle}" HorizontalAlignment="Stretch">
@@ -91,6 +95,18 @@
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFDADADA"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#FFDADADA"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
         </ScrollViewer>
     </Grid>
