@@ -34,7 +34,7 @@
     </Style>
 
     <!-- Button Style -->
-    <Style TargetType="Button">
+    <Style x:Key="BaseButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="#D3D3D3"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontSize" Value="14"/>
@@ -46,15 +46,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                            CornerRadius="3">
+                                CornerRadius="3">
                         <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"/>
+                                              VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
+
 
     <!-- TextBox Style -->
     <Style TargetType="TextBox">

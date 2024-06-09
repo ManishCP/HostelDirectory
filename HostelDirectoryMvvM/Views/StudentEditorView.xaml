@@ -9,7 +9,7 @@
              Height="auto" Width="auto" MinWidth="450"
              Background="#F0F0F0">
 
-
+    
     <Grid Margin="5,8,8,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -55,10 +55,23 @@
                    Style="{StaticResource Heading3}"/>
 
         <TextBox Name="txtId"
-                 Grid.Row="1"
-                 Grid.Column="1"
-                 Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}"
-                 Style="{StaticResource StudentIDTextBoxStyle}"/>
+         Grid.Row="1"
+         Grid.Column="1"
+         Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource StudentIDTextBoxStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="True">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                            <Setter Property="Foreground" Value="#A9A9A9"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="False">
+                            <Setter Property="IsReadOnly" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" 
@@ -72,21 +85,45 @@
                  Grid.Column="1"
                  Text="{Binding Path=CurrentStudent.RoomNumber, Mode=TwoWay}"/>
 
+
+
         <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Margin="0,15,0,0">
+            HorizontalAlignment="Right"
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="0,15,0,0">
             <Button Name="btnUpdate"
-                    Content="UPDATE"
-                    Height="30"
-                    Width="70"
-                    Command="{Binding Path=UpdateCommand}"/>
+            Content="UPDATE"
+            Height="30"
+            Width="70"
+            Command="{Binding Path=UpdateCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Name="btnAdd"
-                    Content="ADD" 
-                    Height="30"
-                    Width="60"
-                    Command="{Binding Path=SaveCommand}"/>            
+            Content="ADD" 
+            Height="30"
+            Width="60"
+            Command="{Binding Path=SaveCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
 
         <TextBlock Name="txtBlockMessage"
