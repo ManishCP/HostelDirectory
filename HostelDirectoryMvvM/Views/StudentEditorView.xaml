@@ -6,11 +6,12 @@
              xmlns:local="clr-namespace:HostelDirectoryMvvM.Views"
              xmlns:app="clr-namespace:HostelDirectoryMvvM"
              mc:Ignorable="d" 
-             Height="auto" Width="auto" MinWidth="450"
-             Background="#F0F0F0">
+             Height="auto" Width="auto" MinWidth="400"
+             Background="#F0F0F0"
+             HorizontalContentAlignment="Stretch">
 
-    
-    <Grid Margin="5,8,8,5">
+
+    <Grid Margin="5,8,8,5" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
@@ -85,17 +86,23 @@
                  Grid.Column="1"
                  Text="{Binding Path=CurrentStudent.RoomNumber, Mode=TwoWay}"/>
 
-
-
         <StackPanel Orientation="Horizontal"
             HorizontalAlignment="Right"
             Grid.Row="5"
             Grid.Column="1"
             Margin="0,15,0,0">
+            <Button Name="btnClear"
+                    Content="CLEAR"
+                    Height="30"
+                    Width="70"
+                    Margin="5,0"
+                    Command="{Binding Path=ClearCommand}">
+            </Button>
             <Button Name="btnUpdate"
             Content="UPDATE"
             Height="30"
             Width="70"
+            Margin="5,0"
             Command="{Binding Path=UpdateCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -112,6 +119,7 @@
             Content="ADD" 
             Height="30"
             Width="60"
+            Margin="5,0"
             Command="{Binding Path=SaveCommand}">
                 <Button.Style>
                     <Style TargetType="Button">

@@ -1,58 +1,55 @@
 ﻿using HostelDirectoryMvvM.Commands;
 using HostelDirectoryMvvM.Models;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Data;
 using System.Linq;
 using System;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Diagnostics;
 
 namespace HostelDirectoryMvvM.ViewModels
 {
-    public class StudentViewModel : INotifyPropertyChanged
+    public class StudentViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #region Fields
+        private readonly StudentService ObjStudentService;
+        private ObservableCollection<StudentDTO> studentsList;
+        private StudentDTO currentStudent;
+        private bool isStudentIdReadOnly;
+        private string filter;
+        private RelayCommand saveCommand;
+        private RelayCommand searchCommand;
+        private RelayCommand updateCommand;
+        private RelayCommand deleteCommand;
+        private RelayCommand clearCommand;
+        private RelayCommand filterTextChangedCommand;
+        #endregion
 
-        StudentService ObjStudentService;
-
+        #region Constructor
         public StudentViewModel()
         {
             ObjStudentService = new StudentService();
             LoadData();
-            CurrentStudent = new StudentDTO(); // Initialize with empty values
+            CurrentStudent = new StudentDTO();
             IsStudentIdReadOnly = false;
-            saveCommand = new RelayCommand(Save);
-            searchCommand = new RelayCommand(Search);
-            updateCommand = new RelayCommand(Update);
-            deleteCommand = new RelayCommand(SendDeleteMessage);
-            filterTextChangedCommand = new RelayCommand(FilterStudentsTextChanged);
+            saveCommand = CreateCommand(Save);
+            searchCommand = CreateCommand(Search);
+            updateCommand = CreateCommand(Update);
+            deleteCommand = CreateCommand(SendDeleteMessage);
+            clearCommand = CreateCommand(Clear);
+            filterTextChangedCommand = CreateCommand(FilterStudentsTextChanged);
 
-            Messenger.Subscribe<DeleteMessage>(HandleDeleteMessage);
+            SubscribeToMessenger<DeleteMessage>(HandleDeleteMessage);
         }
+        #endregion
 
-        private ObservableCollection<StudentDTO> studentsList;
+        #region Properties
         public ObservableCollection<StudentDTO> StudentsList
         {
             get { return studentsList; }
             set { studentsList = value; OnPropertyChanged(nameof(StudentsList)); }
         }
 
-        private void LoadData()
-        {
-            var students = ObjStudentService.GetAll();
-            StudentsList = new ObservableCollection<StudentDTO>(students);
-            FilteredStudents = new ListCollectionView(StudentsList);
-            OnPropertyChanged(nameof(StudentsList));
-            OnPropertyChanged(nameof(FilteredStudents));
-        }
-
-        private StudentDTO currentStudent;
         public StudentDTO CurrentStudent
         {
             get { return currentStudent; }
@@ -63,43 +60,20 @@ namespace HostelDirectoryMvvM.ViewModels
                     currentStudent = value;
                     OnPropertyChanged(nameof(CurrentStudent));
                     IsStudentIdReadOnly = currentStudent.StudentID != null;
+                    if (IsStudentIdReadOnly)
+                    {
+                        Message = "Student Selected";
+                    }
                 }
             }
         }
 
-        private bool isStudentIdReadOnly;
         public bool IsStudentIdReadOnly
         {
             get { return isStudentIdReadOnly; }
             set { isStudentIdReadOnly = value; OnPropertyChanged(nameof(IsStudentIdReadOnly)); }
         }
 
-
-        public void ClearCurrentStudent()
-        {
-            CurrentStudent = new StudentDTO(); ;
-            Message = "Student deselected";
-        }
-
-        private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is ListBoxItem item && item.IsSelected)
-            {
-                item.IsSelected = false;
-                CurrentStudent = new StudentDTO(); // Set to a new instance to indicate no item is selected
-                IsStudentIdReadOnly = false; // Set IsStudentIdReadOnly to false when no item is selected
-                Message = "Student deselected";
-            }
-        }
-
-        private string message;
-        public string Message
-        {
-            get { return message; }
-            set { message = value; OnPropertyChanged(nameof(Message)); }
-        }
-
-        private string filter;
         public string Filter
         {
             get { return filter; }
@@ -113,10 +87,38 @@ namespace HostelDirectoryMvvM.ViewModels
 
         public ListCollectionView FilteredStudents { get; set; }
 
-        private RelayCommand filterTextChangedCommand;
-        public RelayCommand FilterTextChangedCommand
+        public RelayCommand SaveCommand => saveCommand;
+        public RelayCommand SearchCommand => searchCommand;
+        public RelayCommand UpdateCommand => updateCommand;
+        public RelayCommand DeleteCommand => deleteCommand;
+        public RelayCommand ClearCommand => clearCommand;
+        public RelayCommand FilterTextChangedCommand => filterTextChangedCommand;
+        #endregion
+
+        #region Methods
+        private void LoadData()
         {
-            get { return filterTextChangedCommand; }
+            var students = ObjStudentService.GetAll();
+            StudentsList = new ObservableCollection<StudentDTO>(students);
+            FilteredStudents = new ListCollectionView(StudentsList);
+            OnPropertyChanged(nameof(StudentsList));
+            OnPropertyChanged(nameof(FilteredStudents));
+        }
+
+        public void ClearCurrentStudent()
+        {
+            CurrentStudent = new StudentDTO();
+            Message = "Student deselected";
+        }
+
+        private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListBoxItem item && item.IsSelected)
+            {
+                item.IsSelected = false;
+                ClearCurrentStudent();
+                IsStudentIdReadOnly = false;
+            }
         }
 
         private void FilterStudentsTextChanged()
@@ -131,7 +133,7 @@ namespace HostelDirectoryMvvM.ViewModels
 
             if (string.IsNullOrWhiteSpace(Filter))
             {
-                FilteredStudents.Filter = null; // Clear the filter
+                FilteredStudents.Filter = null;
             }
             else
             {
@@ -141,33 +143,27 @@ namespace HostelDirectoryMvvM.ViewModels
                     return s != null && s.Name.IndexOf(Filter, StringComparison.OrdinalIgnoreCase) >= 0;
                 };
             }
-            FilteredStudents.Refresh(); // Refresh to apply the filter
-        }
-
-        private RelayCommand saveCommand;
-        public RelayCommand SaveCommand
-        {
-            get { return saveCommand; }
+            FilteredStudents.Refresh();
         }
 
         public void Save()
         {
             try
             {
-                if (CurrentStudent == null || string.IsNullOrEmpty(CurrentStudent.Name) || CurrentStudent.Age <= 0 || CurrentStudent.RoomNumber <= 0)
+                if (CurrentStudent == null || string.IsNullOrEmpty(CurrentStudent.Name) || CurrentStudent.Age <= 0 || CurrentStudent.RoomNumber <= 0 || string.IsNullOrEmpty(CurrentStudent.StudentID))
                 {
                     Message = "Missing or invalid student information. Please check all fields.";
                     return;
                 }
 
-                var IsSaved = ObjStudentService.Add(CurrentStudent);
-                if (IsSaved)
+                var isSaved = ObjStudentService.Add(CurrentStudent);
+                if (isSaved)
                 {
-                    CurrentStudent.IsDeletable = !ObjStudentService.IsPredefinedStudent(CurrentStudent.StudentID); // Ensure IsDeletable is correctly set
-                    StudentsList.Add(CurrentStudent); // Directly add the new student to the collection
+                    CurrentStudent.IsDeletable = !ObjStudentService.IsPredefinedStudent(CurrentStudent.StudentID);
+                    StudentsList.Add(CurrentStudent);
                     Message = "Student saved";
-                    CurrentStudent = new StudentDTO(); // Clear the current student after saving
-                    OnPropertyChanged(nameof(StudentsList)); // Notify the UI of the update
+                    CurrentStudent = new StudentDTO();
+                    OnPropertyChanged(nameof(StudentsList));
                 }
                 else
                 {
@@ -178,12 +174,6 @@ namespace HostelDirectoryMvvM.ViewModels
             {
                 Message = ex.Message;
             }
-        }
-
-        private RelayCommand searchCommand;
-        public RelayCommand SearchCommand
-        {
-            get { return searchCommand; }
         }
 
         public void Search()
@@ -216,12 +206,6 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
-        private RelayCommand updateCommand;
-        public RelayCommand UpdateCommand
-        {
-            get { return updateCommand; }
-        }
-
         public void Update()
         {
             try
@@ -232,8 +216,8 @@ namespace HostelDirectoryMvvM.ViewModels
                     return;
                 }
 
-                var IsUpdated = ObjStudentService.Update(CurrentStudent);
-                if (IsUpdated)
+                var isUpdated = ObjStudentService.Update(CurrentStudent);
+                if (isUpdated)
                 {
                     var student = StudentsList.FirstOrDefault(s => s.StudentID == CurrentStudent.StudentID);
                     if (student != null)
@@ -241,7 +225,7 @@ namespace HostelDirectoryMvvM.ViewModels
                         student.Name = CurrentStudent.Name;
                         student.Age = CurrentStudent.Age;
                         student.RoomNumber = CurrentStudent.RoomNumber;
-                        OnPropertyChanged(nameof(StudentsList)); // Notify the UI of the update
+                        OnPropertyChanged(nameof(StudentsList));
                         Message = "Student updated";
                     }
                     else
@@ -260,15 +244,9 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
-        private RelayCommand deleteCommand;
-        public RelayCommand DeleteCommand
-        {
-            get { return deleteCommand; }
-        }
-
         public void SendDeleteMessage()
         {
-            Messenger.Publish(new DeleteMessage(CurrentStudent.StudentID));
+            PublishMessage(new DeleteMessage(CurrentStudent.StudentID));
         }
 
         private void HandleDeleteMessage(DeleteMessage message)
@@ -286,13 +264,15 @@ namespace HostelDirectoryMvvM.ViewModels
                     return;
                 }
 
-                var IsDeleted = ObjStudentService.Delete(studentId);
-                if (IsDeleted)
+                var isDeleted = ObjStudentService.Delete(studentId);
+                if (isDeleted)
                 {
                     var student = StudentsList.FirstOrDefault(s => s.StudentID == studentId);
                     if (student != null)
                     {
                         StudentsList.Remove(student);
+                        OnPropertyChanged(nameof(StudentsList));                        
+                        ClearCurrentStudent();
                         Message = "Student deleted";
                     }
                     else
@@ -310,5 +290,13 @@ namespace HostelDirectoryMvvM.ViewModels
                 Message = ex.Message;
             }
         }
+        #endregion
+
+        public void Clear()
+        {
+            CurrentStudent = new StudentDTO();
+            Message = "";
+        }
+            
     }
 }

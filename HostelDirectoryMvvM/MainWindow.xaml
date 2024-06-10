@@ -14,7 +14,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="550" Width="3*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition MinWidth="450" Width="2*"/>
+            <ColumnDefinition MinWidth="400" Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <vw:StudentsListView Grid.Column="0" 

@@ -94,7 +94,7 @@
     <Compile Include="ViewModels\DeleteMessage.cs" />
     <Compile Include="ViewModels\Messenger.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\StudentEditorView.xaml.cs">
       <DependentUpon>StudentEditorView.xaml</DependentUpon>
     </Compile>

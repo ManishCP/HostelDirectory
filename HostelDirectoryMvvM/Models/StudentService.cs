@@ -9,21 +9,32 @@ namespace HostelDirectoryMvvM.Models
 {
     public class StudentService
     {
-        HostelDirectoryDemoDbEntities2 ObjContext;
-        public StudentService() 
+        #region Fields
+
+        private HostelDirectoryDemoDbEntities2 ObjContext;
+
+        #endregion
+
+        #region Constructors
+
+        public StudentService()
         {
             ObjContext = new HostelDirectoryDemoDbEntities2();
             InitializePredefinedStudents();
         }
 
+        #endregion
+
+        #region Private Methods
+
         private void InitializePredefinedStudents()
         {
             var predefinedStudents = new List<StudentDTO>
-        {
-            new StudentDTO { StudentID = "S001", Name = "Virat Kohli", Age = 22, RoomNumber = 101, IsDeletable = false },
-            new StudentDTO { StudentID = "S002", Name = "Sebastian Vettel", Age = 23, RoomNumber = 102, IsDeletable = false },
-            new StudentDTO { StudentID = "S003", Name = "MS Dhoni", Age = 23, RoomNumber = 103, IsDeletable = false },
-        };
+            {
+                new StudentDTO { StudentID = "S001", Name = "Virat Kohli", Age = 22, RoomNumber = 101, IsDeletable = false },
+                new StudentDTO { StudentID = "S002", Name = "Sebastian Vettel", Age = 23, RoomNumber = 102, IsDeletable = false },
+                new StudentDTO { StudentID = "S003", Name = "MS Dhoni", Age = 23, RoomNumber = 103, IsDeletable = false },
+            };
 
             foreach (var student in predefinedStudents)
             {
@@ -38,6 +49,10 @@ namespace HostelDirectoryMvvM.Models
         {
             return ObjContext.Students.Any(s => s.StudentID == studentId);
         }
+
+        #endregion
+
+        #region Public Methods
 
         public List<StudentDTO> GetAll()
         {
@@ -139,7 +154,6 @@ namespace HostelDirectoryMvvM.Models
             return isUpdated;
         }
 
-
         public bool Delete(string studentId)
         {
             bool isDeleted = false;
@@ -166,7 +180,6 @@ namespace HostelDirectoryMvvM.Models
             return isDeleted;
         }
 
-
         public List<StudentDTO> Search(string searchTerm)
         {
             List<StudentDTO> searchResults = new List<StudentDTO>();
@@ -184,13 +197,12 @@ namespace HostelDirectoryMvvM.Models
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 
             return searchResults;
         }
 
-
+        #endregion
     }
 }

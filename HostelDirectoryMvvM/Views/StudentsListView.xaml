@@ -50,22 +50,18 @@
             </i:Interaction.Triggers>
         </TextBox>
 
-        <!-- Column Headers -->
-        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-                       HorizontalAlignment="Center" Margin="10,10,10,0">
-            <TextBlock Text="Name" 
-                       Width="200" 
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-            <TextBlock Text="Room Number" 
-                       Width="100" 
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-            <TextBlock Text="Age" 
-                       Width="50" 
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-            <TextBlock Text="Delete Record" 
-                       Width="100" 
-                       Style="{StaticResource HeaderTextBlockStyle}"/>
-        </StackPanel>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="10,10,15,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" SharedSizeGroup="Column1" />
+                <ColumnDefinition Width="1*" SharedSizeGroup="Column2" />
+                <ColumnDefinition Width="1*" SharedSizeGroup="Column3" />
+                <ColumnDefinition Width="1*" SharedSizeGroup="Column4" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name" Grid.Column="0" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Center" Margin="5,0"/>
+            <TextBlock Text="Room Number" Grid.Column="1" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Center" Margin="5,0"/>
+            <TextBlock Text="Age" Grid.Column="2" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Center" Margin="5,0"/>
+            <TextBlock Text="Delete Record" Grid.Column="3" Style="{StaticResource HeaderTextBlockStyle}" HorizontalAlignment="Center" Margin="5,0"/>
+        </Grid>
 
         <!-- ScrollViewer for Student List -->
         <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
@@ -83,12 +79,12 @@
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Path=Name}" Grid.Column="0" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding Path=RoomNumber}" Grid.Column="1" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding Path=Age}" Grid.Column="2" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap"/>
-                                <Button Grid.Column="3" Content="Delete" Style="{StaticResource RemoveButtonStyle}"
+                                <TextBlock Text="{Binding Path=Name}" Grid.Column="0" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding Path=RoomNumber}" Grid.Column="1" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Path=Age}" Grid.Column="2" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                <Button Grid.Column="3" Content="Delete" HorizontalAlignment="Center" Style="{StaticResource RemoveButtonStyle}"
                                         Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         CommandParameter="{Binding}" IsEnabled="{Binding IsDeletable}"/>
                             </Grid>
