@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HostelDirectoryMvvM.ViewModels
 {
-    public static class Messenger
+    public class Messenger
     {
-        private static readonly Dictionary<Type, List<Action<object>>> subscribers = new Dictionary<Type, List<Action<object>>>();
+        private static readonly Messenger instance = new Messenger();
+        private readonly Dictionary<Type, List<Action<object>>> subscribers = new Dictionary<Type, List<Action<object>>>();
 
-        public static void Subscribe<T>(Action<T> action)
+        public static Messenger Instance => instance;
+
+        private Messenger() { }
+
+        public void Subscribe<T>(Action<T> action)
         {
             var messageType = typeof(T);
             if (!subscribers.ContainsKey(messageType))
@@ -21,14 +24,22 @@ namespace HostelDirectoryMvvM.ViewModels
             subscribers[messageType].Add(o => action((T)o));
         }
 
-        public static void Publish<T>(T message)
+        public void Publish<T>(T message)
         {
             var messageType = message.GetType();
             if (subscribers.ContainsKey(messageType))
             {
-                foreach (var action in subscribers[messageType])
+                foreach (var action in subscribers[messageType].ToList())
                 {
-                    action(message);
+                    try
+                    {
+                        action(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle or log the exception
+                        Console.WriteLine($"Error handling message of type {messageType}: {ex.Message}");
+                    }
                 }
             }
         }

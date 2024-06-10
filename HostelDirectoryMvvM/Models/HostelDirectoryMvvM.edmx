@@ -21,6 +21,12 @@
           <Parameter Name="RoomNumber" Type="int" Mode="In" />
           <Parameter Name="StudentID" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="UpdateStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
+          <Parameter Name="RoomNumber" Type="int" Mode="In" />
+          <Parameter Name="StudentID" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="HostelDirectoryDemoDbModelStoreContainer">
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -39,9 +45,15 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StudentID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="HostelDirectoryDemoDbEntities2" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HostelDirectoryDemoDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Students" EntityType="Self.Student" />
           <FunctionImport Name="AddStudent">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="RoomNumber" Mode="In" Type="Int32" />
+            <Parameter Name="StudentID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateStudent">
             <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="Age" Mode="In" Type="Int32" />
             <Parameter Name="RoomNumber" Mode="In" Type="Int32" />
@@ -53,7 +65,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HostelDirectoryDemoDbModelStoreContainer" CdmEntityContainer="HostelDirectoryDemoDbEntities2">
+        <EntityContainerMapping StorageEntityContainer="HostelDirectoryDemoDbModelStoreContainer" CdmEntityContainer="HostelDirectoryDemoDbEntities">
           <EntitySetMapping Name="Students">
             <EntityTypeMapping TypeName="HostelDirectoryDemoDbModel.Student">
               <MappingFragment StoreEntitySet="Student">
@@ -66,6 +78,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AddStudent" FunctionName="HostelDirectoryDemoDbModel.Store.AddStudent" />
+          <FunctionImportMapping FunctionImportName="UpdateStudent" FunctionName="HostelDirectoryDemoDbModel.Store.UpdateStudent" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -21,19 +21,9 @@ namespace HostelDirectoryMvvM
     /// </summary>
     public partial class MainWindow : Window
     {
-        StudentViewModel ViewModel;
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new StudentViewModel();
-            this.DataContext = ViewModel;
-
         }
-
-        private void StudentEditorView_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Your initialization or logic when StudentEditorView is loaded
-        }
-
     }
 }

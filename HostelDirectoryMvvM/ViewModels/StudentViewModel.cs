@@ -59,10 +59,15 @@ namespace HostelDirectoryMvvM.ViewModels
                 {
                     currentStudent = value;
                     OnPropertyChanged(nameof(CurrentStudent));
-                    IsStudentIdReadOnly = currentStudent.StudentID != null;
-                    if (IsStudentIdReadOnly)
+
+                    if (currentStudent != null)
                     {
-                        Message = "Student Selected";
+                        IsStudentIdReadOnly = currentStudent.StudentID != null;
+                        if (IsStudentIdReadOnly)
+                        {
+                            Message = "Student Selected";
+                        }
+
                     }
                 }
             }
@@ -289,14 +294,14 @@ namespace HostelDirectoryMvvM.ViewModels
             {
                 Message = ex.Message;
             }
-        }
-        #endregion
+        }        
 
         public void Clear()
         {
             CurrentStudent = new StudentDTO();
             Message = "";
         }
-            
+        #endregion
+
     }
 }

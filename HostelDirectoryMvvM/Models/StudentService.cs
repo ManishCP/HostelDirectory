@@ -11,7 +11,7 @@ namespace HostelDirectoryMvvM.Models
     {
         #region Fields
 
-        private HostelDirectoryDemoDbEntities2 ObjContext;
+        private HostelDirectoryDemoDbEntities ObjContext;
 
         #endregion
 
@@ -19,7 +19,7 @@ namespace HostelDirectoryMvvM.Models
 
         public StudentService()
         {
-            ObjContext = new HostelDirectoryDemoDbEntities2();
+            ObjContext = new HostelDirectoryDemoDbEntities();
             InitializePredefinedStudents();
         }
 
@@ -90,7 +90,7 @@ namespace HostelDirectoryMvvM.Models
         {
             bool isAdded = false;
             if (objNewStudent.Age < 21 || objNewStudent.Age > 25)
-                throw new ArgumentException("Invalid age limit for student");
+                throw new ArgumentException("Age limit for student is 21-25");
 
             string sql = "EXEC AddStudent @Name, @Age, @RoomNumber, @StudentID";
 
@@ -127,7 +127,7 @@ namespace HostelDirectoryMvvM.Models
         {
             bool isUpdated = false;
             if (objUpdatedStudent.Age < 21 || objUpdatedStudent.Age > 25)
-                throw new ArgumentException("Invalid age limit for student");
+                throw new ArgumentException("Age limit for student is 21-25");
 
             string sql = "EXEC UpdateStudent @Name, @Age, @RoomNumber, @StudentID";
 

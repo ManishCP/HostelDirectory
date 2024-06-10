@@ -15,10 +15,10 @@ namespace HostelDirectoryMvvM.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class HostelDirectoryDemoDbEntities2 : DbContext
+    public partial class HostelDirectoryDemoDbEntities : DbContext
     {
-        public HostelDirectoryDemoDbEntities2()
-            : base("name=HostelDirectoryDemoDbEntities2")
+        public HostelDirectoryDemoDbEntities()
+            : base("name=HostelDirectoryDemoDbEntities")
         {
         }
     
@@ -48,6 +48,27 @@ namespace HostelDirectoryMvvM.Models
                 new ObjectParameter("StudentID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddStudent", nameParameter, ageParameter, roomNumberParameter, studentIDParameter);
+        }
+    
+        public virtual int UpdateStudent(string name, Nullable<int> age, Nullable<int> roomNumber, string studentID)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var ageParameter = age.HasValue ?
+                new ObjectParameter("Age", age) :
+                new ObjectParameter("Age", typeof(int));
+    
+            var roomNumberParameter = roomNumber.HasValue ?
+                new ObjectParameter("RoomNumber", roomNumber) :
+                new ObjectParameter("RoomNumber", typeof(int));
+    
+            var studentIDParameter = studentID != null ?
+                new ObjectParameter("StudentID", studentID) :
+                new ObjectParameter("StudentID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateStudent", nameParameter, ageParameter, roomNumberParameter, studentIDParameter);
         }
     }
 }

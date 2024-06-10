@@ -7,6 +7,8 @@ namespace HostelDirectoryMvvM.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        private readonly Messenger messenger = Messenger.Instance;
+
         #region INotifyPropertyChanged Implementation
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -42,12 +44,12 @@ namespace HostelDirectoryMvvM.ViewModels
 
         protected void SubscribeToMessenger<TMessage>(Action<TMessage> action)
         {
-            Messenger.Subscribe(action);
+            messenger.Subscribe(action);
         }
 
         protected void PublishMessage<TMessage>(TMessage message)
         {
-            Messenger.Publish(message);
+            messenger.Publish(message);
         }
 
         #endregion

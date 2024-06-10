@@ -4,11 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HostelDirectoryMvvM"
-        xmlns:vw="clr-namespace:HostelDirectoryMvvM.Views"
+        xmlns:vw="clr-namespace:HostelDirectoryMvvM.Views" 
+        xmlns:vm="clr-namespace:HostelDirectoryMvvM.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow"
         MinHeight="450"
         MinWidth="1000">
+
+    <Window.DataContext>
+        <vm:StudentViewModel />
+    </Window.DataContext>
 
     <Grid>
         <Grid.ColumnDefinitions>
