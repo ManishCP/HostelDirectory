@@ -12,29 +12,63 @@ namespace HostelDirectoryMvvM.Models
         HostelDirectoryDemoDbEntities2 ObjContext;
         public StudentService() 
         {
-            ObjContext = new HostelDirectoryDemoDbEntities2();            
+            ObjContext = new HostelDirectoryDemoDbEntities2();
+            InitializePredefinedStudents();
+        }
+
+        private void InitializePredefinedStudents()
+        {
+            var predefinedStudents = new List<StudentDTO>
+        {
+            new StudentDTO { StudentID = "S001", Name = "Virat Kohli", Age = 22, RoomNumber = 101, IsDeletable = false },
+            new StudentDTO { StudentID = "S002", Name = "Sebastian Vettel", Age = 23, RoomNumber = 102, IsDeletable = false },
+            new StudentDTO { StudentID = "S003", Name = "MS Dhoni", Age = 23, RoomNumber = 103, IsDeletable = false },
+        };
+
+            foreach (var student in predefinedStudents)
+            {
+                if (!StudentExists(student.StudentID))
+                {
+                    Add(student);
+                }
+            }
+        }
+
+        private bool StudentExists(string studentId)
+        {
+            return ObjContext.Students.Any(s => s.StudentID == studentId);
         }
 
         public List<StudentDTO> GetAll()
-        { 
+        {
             List<StudentDTO> ObjStudentsList = new List<StudentDTO>();
             try
             {
-                var ObjQuery = from student
-                               in ObjContext.Students 
-                               select student;
+                var ObjQuery = from student in ObjContext.Students select student;
                 foreach (var student in ObjQuery)
                 {
-                    ObjStudentsList.Add(new StudentDTO { StudentID = student.StudentID, Name=student.Name, Age=student.Age, RoomNumber=student.RoomNumber});
+                    var isDeletable = !IsPredefinedStudent(student.StudentID);
+                    ObjStudentsList.Add(new StudentDTO
+                    {
+                        StudentID = student.StudentID,
+                        Name = student.Name,
+                        Age = student.Age,
+                        RoomNumber = student.RoomNumber,
+                        IsDeletable = isDeletable
+                    });
                 }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 
             return ObjStudentsList;
+        }
+
+        public bool IsPredefinedStudent(string studentId)
+        {
+            return studentId == "S001" || studentId == "S002" || studentId == "S003";
         }
 
         public bool Add(StudentDTO objNewStudent)
@@ -55,6 +89,12 @@ namespace HostelDirectoryMvvM.Models
                 // Execute the stored procedure
                 int result = ObjContext.Database.ExecuteSqlCommand(sql, nameParam, ageParam, roomNumberParam, idParam);
                 isAdded = result > 0;
+
+                if (isAdded)
+                {
+                    // Set IsDeletable property
+                    objNewStudent.IsDeletable = !IsPredefinedStudent(objNewStudent.StudentID);
+                }
             }
             catch (SqlException ex)
             {

@@ -163,6 +163,7 @@ namespace HostelDirectoryMvvM.ViewModels
                 var IsSaved = ObjStudentService.Add(CurrentStudent);
                 if (IsSaved)
                 {
+                    CurrentStudent.IsDeletable = !ObjStudentService.IsPredefinedStudent(CurrentStudent.StudentID); // Ensure IsDeletable is correctly set
                     StudentsList.Add(CurrentStudent); // Directly add the new student to the collection
                     Message = "Student saved";
                     CurrentStudent = new StudentDTO(); // Clear the current student after saving

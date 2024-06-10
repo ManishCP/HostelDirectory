@@ -48,5 +48,12 @@ namespace HostelDirectoryMvvM.Models
             get { return roomNumber; }
             set { roomNumber = value; OnPropertyChanged("RoomNumber");}
         }
+
+        private bool isDeletable;
+        public bool IsDeletable
+        {
+            get { return isDeletable; }
+            set { isDeletable = value; OnPropertyChanged("IsDeletable"); }
+        }
     }
 }

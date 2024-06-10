@@ -134,6 +134,9 @@
                             <Setter Property="Background" Value="#800000"/>
                             <!-- Even darker red on click -->
                         </Trigger>
+                        <DataTrigger Binding="{Binding IsDeletable}" Value="False">
+                            <Setter Property="Background" Value="#CD5C5C"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
