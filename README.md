@@ -1,18 +1,23 @@
 # Hostel Directory Management System
 
+## Table of Contents
+- [Description](#description)
+- [Task Achieved](#task-achieved)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [References](#references)
+  
 ## Description
 
-The Hostel Directory Management System is a desktop application developed using WPF (Windows Presentation Foundation) and MVVM (Model-View-ViewModel) architecture. It allows users to manage student records in a hostel setting, providing features such as adding new students, updating existing records, searching for students by name, and deleting records.
+The Hostel Directory Management System is a desktop application developed using WPF (Windows Presentation Foundation) and MVVM (Model-View-ViewModel) architecture. It allows users to manage student records in a hostel setting, providing features such as adding new students, updating existing records, searching for students by name, deleting records, and filtering through the list of students based on their names, making it easier for users to find specific records. Additionally, the application handles predefined students who cannot be deleted, ensuring data integrity. It utilizes Entity Framework for database operations, ensuring efficient data management and retrieval.
 
-The application provides a user-friendly interface where users can easily input and manage student information. It utilizes Entity Framework for database operations, ensuring efficient data management and retrieval.
 
-One key feature of the application is its ability to filter the list of students based on their names, making it easier for users to find specific records. Additionally, the application handles predefined students who cannot be deleted, ensuring data integrity.
-
-Overall, the Hostel Directory Management System is designed to streamline the process of managing student records in a hostel, providing a reliable and efficient solution for hostel administrators and staff.
-
-## Features
+## Task Achieved
 
 - **Naming and Coding Conventions:** Followed C# naming conventions and code conventions as per Microsoft guidelines. Placed fields, constructors, properties, and methods in a structured manner and used regions for better organization.
+  
+- **Unique Student IDs:** Implemented standard procedure to ensure that each student ID is unique and that no null values are allowed in the application, with read-only access from the outside. The ID is generated programmatically and is guaranteed to be unique within a single execution session. Validation is implemented to ensure that all required fields are filled before a student can be added or updated in the database.
 
 - **No Code Behind in XAML:** Avoided using code-behind files in *.xaml.cs files to separate UI logic from business logic, improving maintainability.
 
@@ -22,7 +27,7 @@ Overall, the Hostel Directory Management System is designed to streamline the pr
 
 - **Student List View:** Added a ListBox for displaying the list of students, with a template showing the student's name, room number, age, and a remove button. Used a ViewModel for binding and implemented a command for removing students, ensuring that predefined students cannot be deleted.
 
-- **Messenger (Publish/Subscribe):** Used Messenger for exchanging messages between ViewModels, particularly for deleting students. Implemented as a singleton with methods for registering/receiving messages and sending messages.
+- **Messenger (Publish/Subscribe):** Used Messenger for exchanging messages between ViewModels, particularly for deleting students. The Messenger class from the MVVM Light Toolkit is used to facilitate communication between different view models. This class is implemented as a singleton to ensure a single instance is used throughout the application. The Messenger allows view models to send and receive messages without needing direct references to each other, adhering to the principles of loose coupling.
 
 - **Add Student Command:** Implemented a command for adding new students, with a button in the view for user interaction.
 
@@ -34,22 +39,29 @@ Overall, the Hostel Directory Management System is designed to streamline the pr
 
 - **Student Edit View:** Added a view for editing student properties, with TextBoxes for Name, Room, and Age. Implemented warning messages for deselected students.
 
-- **Unique Student IDs:** Implemented unique student IDs for each application execution session, with read-only access from the outside.
-
 - **Dynamic Control Sizing:** Used automatic content size adjustment to ensure the application looks visually appealing at any window size.
 
 - **Optional Validation:** Optionally added validation to the student edit view to prevent blank fields.
+  
+- **Entity Framework:** Entity Framework is used as the ORM (Object-Relational Mapping) tool for data access. It manages the database operations, allowing for CRUD (Create, Read, Update, Delete) operations on student records without needing to write raw SQL queries. The integration with Entity Framework ensures a smooth and efficient interaction with the SQL Server database.
 
-The Hostel Directory Management System provides a user-friendly interface for managing hostel student records, following best practices and conventions for a robust and maintainable application.
 
 ## Installation
 
-To run the application, follow these steps:
+**To run the application, follow these steps:**
 
 1. Clone the repository to your local machine.
 2. Open the solution in Visual Studio.
 3. Build the solution to restore the NuGet packages.
 4. Run the application.
+   
+**Setting up Your DB:**
+1. Download Db backup file - https://drive.google.com/file/d/192ckvOVqeW98D5v4Eu5semGClOYMwOcc/view?usp=sharing
+2. Open SQL Server Management Studio (SSMS) and connect to the target SQL Server instance.
+3. Right-click on the Databases node and select Restore Database.
+4. In the Restore Database window, select Device and click Add to browse and select the backup file you downloaded to the target system.
+5. Make sure the destination database name is correct (you can change it if necessary).
+6. Click OK to start the restore process.
 
 ## Usage
 
@@ -68,16 +80,10 @@ To run the application, follow these steps:
 - WPF for the user interface.
 - Entity Framework for database operations.
 
-## Contributing
-
-Contributions are welcome! Please feel free to open a pull request or submit an issue if you have any suggestions or improvements.
-
 ## References
 
 - [Microsoft C# Naming Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names)
 - [Microsoft C# Coding Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [Styles](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/how-to-create-apply-style)
+- [WPF .NET](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-8.0)
+- [Entity Framework](https://learn.microsoft.com/en-us/aspnet/entity-framework)
