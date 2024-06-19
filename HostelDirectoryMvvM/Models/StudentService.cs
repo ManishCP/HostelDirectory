@@ -168,30 +168,6 @@ namespace HostelDirectoryMvvM.Models
 
             return isDeleted;
         }
-
-        public List<StudentDTO> Search(string searchTerm)
-        {
-            List<StudentDTO> searchResults = new List<StudentDTO>();
-
-            try
-            {
-                var ObjQuery = from student
-                               in ObjContext.Students
-                               where student.Name.Contains(searchTerm) || student.StudentID.Contains(searchTerm)
-                               select student;
-                foreach (var student in ObjQuery)
-                {
-                    searchResults.Add(new StudentDTO { StudentID = student.StudentID, Name = student.Name, Age = student.Age, RoomNumber = student.RoomNumber });
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return searchResults;
-        }
-
         #endregion
     }
 }

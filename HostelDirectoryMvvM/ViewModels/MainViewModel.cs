@@ -2,7 +2,6 @@
 using HostelDirectoryMvvM.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
 
@@ -10,22 +9,21 @@ namespace HostelDirectoryMvvM.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private StudentService _studentService;
+        private readonly StudentService _studentService;
         private StudentViewModel _currentStudent;
         private string _filter;
         private ObservableCollection<StudentViewModel> _studentsList;
+        private ListCollectionView _filteredStudents;
 
         public ObservableCollection<StudentViewModel> StudentsList
         {
             get { return _studentsList; }
-            set
+            private set
             {
                 _studentsList = value;
                 OnPropertyChanged(nameof(StudentsList));
             }
         }
-
-        private ListCollectionView _filteredStudents;
 
         public ListCollectionView FilteredStudents
         {
@@ -64,15 +62,14 @@ namespace HostelDirectoryMvvM.ViewModels
             {
                 _filter = value;
                 OnPropertyChanged(nameof(Filter));
+                ClearCurrentStudent();
                 FilterStudents();
             }
         }
 
         public RelayCommand SaveCommand { get; }
-        public RelayCommand SearchCommand { get; }
         public RelayCommand UpdateCommand { get; }
         public RelayCommand ClearCommand { get; }
-        public RelayCommand FilterTextChangedCommand { get; }
         public RelayCommand ListBoxItemPreviewMouseDownCommand { get; }
 
         public MainViewModel()
@@ -83,10 +80,8 @@ namespace HostelDirectoryMvvM.ViewModels
             IsStudentIdReadOnly = false;
 
             SaveCommand = CreateCommand(Save);
-            SearchCommand = CreateCommand(Search);
             UpdateCommand = CreateCommand(Update);
             ClearCommand = CreateCommand(Clear);
-            FilterTextChangedCommand = CreateCommand(FilterStudentsTextChanged);
             ListBoxItemPreviewMouseDownCommand = CreateCommand(DeselectOrReselectCurrentStudent);
 
             Messenger.Instance.Subscribe<DeleteMessage>(HandleDeleteMessage);
@@ -118,17 +113,8 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
-
-        private void FilterStudentsTextChanged()
-        {
-            FilterStudents();
-            FilteredStudents.Refresh();
-        }
-
         private void FilterStudents()
         {
-            if (FilteredStudents == null) return;
-
             if (string.IsNullOrWhiteSpace(Filter))
             {
                 FilteredStudents.Filter = null;
@@ -141,7 +127,6 @@ namespace HostelDirectoryMvvM.ViewModels
                     return s != null && s.Name.IndexOf(Filter, StringComparison.OrdinalIgnoreCase) >= 0;
                 };
             }
-            FilteredStudents.Refresh();
         }
 
         public void Save()
@@ -159,9 +144,9 @@ namespace HostelDirectoryMvvM.ViewModels
                 {
                     CurrentStudent.Student.IsDeletable = !_studentService.IsPredefinedStudent(CurrentStudent.StudentID);
                     StudentsList.Add(CurrentStudent);
+                    OnPropertyChanged(nameof(StudentsList));
                     ClearCurrentStudent();
                     Message = "Student saved";
-                    OnPropertyChanged(nameof(StudentsList));
                 }
                 else
                 {
@@ -174,35 +159,6 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
-        public void Search()
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(CurrentStudent.Name))
-                {
-                    Message = "Please enter a name to search.";
-                    return;
-                }
-
-                var searchResults = _studentService.Search(CurrentStudent.Name);
-                if (searchResults != null && searchResults.Any())
-                {
-                    StudentsList = new ObservableCollection<StudentViewModel>(searchResults.Select(s => new StudentViewModel(s)));
-                    FilteredStudents = new ListCollectionView(StudentsList);
-                    OnPropertyChanged(nameof(StudentsList));
-                    OnPropertyChanged(nameof(FilteredStudents));
-                }
-                else
-                {
-                    Message = "Student Not Found";
-                    StudentsList.Clear();
-                }
-            }
-            catch (Exception ex)
-            {
-                Message = ex.Message;
-            }
-        }
 
         public void Update()
         {
@@ -225,6 +181,7 @@ namespace HostelDirectoryMvvM.ViewModels
                     var student = StudentsList.FirstOrDefault(s => s.StudentID == CurrentStudent.StudentID);
                     if (student != null)
                     {
+                        // Update the student only if the update operation is successful
                         student.Student.Name = CurrentStudent.Name;
                         student.Student.Age = CurrentStudent.Age;
                         student.Student.RoomNumber = CurrentStudent.RoomNumber;
@@ -242,6 +199,7 @@ namespace HostelDirectoryMvvM.ViewModels
                 }
             }
         }
+
 
         private void HandleDeleteMessage(DeleteMessage message)
         {
