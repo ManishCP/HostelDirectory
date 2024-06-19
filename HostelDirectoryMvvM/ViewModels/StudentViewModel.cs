@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Linq;
 using System;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace HostelDirectoryMvvM.ViewModels
 {
@@ -23,6 +21,7 @@ namespace HostelDirectoryMvvM.ViewModels
         private RelayCommand deleteCommand;
         private RelayCommand clearCommand;
         private RelayCommand filterTextChangedCommand;
+        private RelayCommand listBoxItemPreviewMouseDownCommand;
         #endregion
 
         #region Constructor
@@ -38,6 +37,7 @@ namespace HostelDirectoryMvvM.ViewModels
             deleteCommand = CreateCommand(SendDeleteMessage);
             clearCommand = CreateCommand(Clear);
             filterTextChangedCommand = CreateCommand(FilterStudentsTextChanged);
+            listBoxItemPreviewMouseDownCommand = CreateCommand(DeselectOrReselectCurrentStudent);
 
             SubscribeToMessenger<DeleteMessage>(HandleDeleteMessage);
         }
@@ -59,7 +59,6 @@ namespace HostelDirectoryMvvM.ViewModels
                 {
                     currentStudent = value;
                     OnPropertyChanged(nameof(CurrentStudent));
-
                     if (currentStudent != null)
                     {
                         IsStudentIdReadOnly = currentStudent.StudentID != null;
@@ -97,6 +96,8 @@ namespace HostelDirectoryMvvM.ViewModels
         public RelayCommand UpdateCommand => updateCommand;
         public RelayCommand DeleteCommand => deleteCommand;
         public RelayCommand ClearCommand => clearCommand;
+        public RelayCommand ListBoxItemPreviewMouseDownCommand => listBoxItemPreviewMouseDownCommand;
+
         public RelayCommand FilterTextChangedCommand => filterTextChangedCommand;
         #endregion
 
@@ -116,13 +117,18 @@ namespace HostelDirectoryMvvM.ViewModels
             Message = "Student deselected";
         }
 
-        private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DeselectOrReselectCurrentStudent(object parameter)
         {
-            if (sender is ListBoxItem item && item.IsSelected)
+            if (parameter is StudentDTO student)
             {
-                item.IsSelected = false;
-                ClearCurrentStudent();
-                IsStudentIdReadOnly = false;
+                if (currentStudent != null && currentStudent.StudentID == student.StudentID)
+                {
+                    ClearCurrentStudent();
+                }
+                else
+                {
+                    CurrentStudent = student;
+                }
             }
         }
 
@@ -276,7 +282,7 @@ namespace HostelDirectoryMvvM.ViewModels
                     if (student != null)
                     {
                         StudentsList.Remove(student);
-                        OnPropertyChanged(nameof(StudentsList));                        
+                        OnPropertyChanged(nameof(StudentsList));
                         ClearCurrentStudent();
                         Message = "Student deleted";
                     }
@@ -294,7 +300,7 @@ namespace HostelDirectoryMvvM.ViewModels
             {
                 Message = ex.Message;
             }
-        }        
+        }
 
         public void Clear()
         {

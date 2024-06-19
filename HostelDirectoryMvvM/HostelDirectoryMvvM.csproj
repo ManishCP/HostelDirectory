@@ -70,7 +70,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\ListBoxDeselectBehavior.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Models\HostelDirectoryMvvM.Context.cs">
       <AutoGen>True</AutoGen>

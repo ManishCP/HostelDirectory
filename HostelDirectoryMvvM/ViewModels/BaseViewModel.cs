@@ -38,6 +38,12 @@ namespace HostelDirectoryMvvM.ViewModels
             return new RelayCommand(execute);
         }
 
+        protected RelayCommand CreateCommand(Action<object> execute)
+        {
+            return new RelayCommand(execute);
+        }
+
+
         #endregion
 
         #region Messenger Handling
