@@ -62,11 +62,11 @@
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource StudentIDTextBoxStyle}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="True">
+                        <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="True">
                             <Setter Property="IsReadOnly" Value="True"/>
                             <Setter Property="Foreground" Value="#A9A9A9"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="False">
+                        <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="False">
                             <Setter Property="IsReadOnly" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -108,7 +108,7 @@
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="True">
+                            <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="True">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -125,7 +125,7 @@
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsStudentIdReadOnly}" Value="False">
+                            <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="False">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>

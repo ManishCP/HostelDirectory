@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:HostelDirectoryMvvM.ViewModels"
              mc:Ignorable="d" 
              Height="auto" Width="auto" MinWidth="500"
              Background="#F0F0F0">
@@ -63,7 +62,7 @@
                  ScrollViewer.VerticalScrollBarVisibility="Auto">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseDown">
-                    <i:InvokeCommandAction Command="{Binding DataContext.ListBoxItemPreviewMouseDownCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    <i:InvokeCommandAction Command="{Binding ListBoxItemPreviewMouseDownCommand}"
                            CommandParameter="{Binding ElementName=StudentListBox, Path=SelectedItem}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -81,8 +80,7 @@
                             <TextBlock Text="{Binding Path=RoomNumber}" Grid.Column="1" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding Path=Age}" Grid.Column="2" Style="{StaticResource StudentTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                             <Button Grid.Column="3" Content="Delete" HorizontalAlignment="Center" Style="{StaticResource RemoveButtonStyle}"
-                                    Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}" IsEnabled="{Binding IsDeletable}"/>
+                    Command="{Binding DeleteCommand}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

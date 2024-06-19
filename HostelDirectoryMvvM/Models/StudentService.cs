@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HostelDirectoryMvvM.Models
 {
@@ -125,12 +123,8 @@ namespace HostelDirectoryMvvM.Models
 
         public bool Update(StudentDTO objUpdatedStudent)
         {
-            bool isUpdated = false;
-            if (objUpdatedStudent.Age < 21 || objUpdatedStudent.Age > 25)
-                throw new ArgumentException("Age limit for student is 21-25");
-
+            bool isUpdated;
             string sql = "EXEC UpdateStudent @Name, @Age, @RoomNumber, @StudentID";
-
             try
             {
                 var nameParam = new SqlParameter("@Name", objUpdatedStudent.Name);
@@ -142,15 +136,10 @@ namespace HostelDirectoryMvvM.Models
                 int result = ObjContext.Database.ExecuteSqlCommand(sql, nameParam, ageParam, roomNumberParam, idParam);
                 isUpdated = result > 0;
             }
-            catch (SqlException ex)
+            catch
             {
-                throw new InvalidOperationException("Failed to update student: " + ex.Message, ex);
+                isUpdated = false;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while updating the student.", ex);
-            }
-
             return isUpdated;
         }
 
