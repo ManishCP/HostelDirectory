@@ -14,6 +14,18 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
+    <Window.Resources>
+        <DataTemplate x:Key="StudentEditorViewTemplate" DataType="{x:Type vm:StudentViewModel}">
+            <vw:StudentEditorView />
+        </DataTemplate>
+        <DataTemplate x:Key="EmptyViewTemplate">
+            <vw:EmptyView />
+        </DataTemplate>
+        <vm:StudentDataTemplateSelector x:Key="StudentDataTemplateSelector"
+                                       StudentEditorViewTemplate="{StaticResource StudentEditorViewTemplate}"
+                                       EmptyViewTemplate="{StaticResource EmptyViewTemplate}" />
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="550" Width="3*"/>
@@ -26,7 +38,9 @@
 
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
 
-        <vw:StudentEditorView Grid.Column="2" 
-                              Margin="4,0,0,0"/>
+        <!-- Use ContentControl to display the selected view -->
+        <ContentControl Grid.Column="2"
+                        Content="{Binding CurrentStudent}"
+                        ContentTemplateSelector="{StaticResource StudentDataTemplateSelector}" />
     </Grid>
 </Window>

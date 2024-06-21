@@ -10,7 +10,6 @@
              Background="#F0F0F0"
              HorizontalContentAlignment="Stretch">
 
-
     <Grid Margin="5,8,8,5" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -56,17 +55,17 @@
                    Style="{StaticResource Heading3}"/>
 
         <TextBox Name="txtId"
-         Grid.Row="1"
-         Grid.Column="1"
-         Text="{Binding Path=CurrentStudent.StudentID, Mode=TwoWay}">
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Text="{Binding Path=StudentID, Mode=TwoWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource StudentIDTextBoxStyle}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="True">
+                        <DataTrigger Binding="{Binding Path=IsStudentIdReadOnly}" Value="True">
                             <Setter Property="IsReadOnly" Value="True"/>
                             <Setter Property="Foreground" Value="#A9A9A9"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="False">
+                        <DataTrigger Binding="{Binding Path=IsStudentIdReadOnly}" Value="False">
                             <Setter Property="IsReadOnly" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -76,39 +75,39 @@
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" 
-                 Text="{Binding Path=CurrentStudent.Name, Mode=TwoWay}"/>
+                 Text="{Binding Path=Name, Mode=TwoWay}"/>
         <TextBox Name="txtAge"
                  Grid.Row="3"
                  Grid.Column="1"
-                 Text="{Binding Path=CurrentStudent.Age, Mode=TwoWay}"/>
+                 Text="{Binding Path=Age, Mode=TwoWay}"/>
         <TextBox Name="txtRoomNumber"
                  Grid.Row="4"
                  Grid.Column="1"
-                 Text="{Binding Path=CurrentStudent.RoomNumber, Mode=TwoWay}"/>
+                 Text="{Binding Path=RoomNumber, Mode=TwoWay}"/>
 
         <StackPanel Orientation="Horizontal"
-            HorizontalAlignment="Right"
-            Grid.Row="5"
-            Grid.Column="1"
-            Margin="0,15,0,0">
+                    HorizontalAlignment="Right"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="0,15,0,0">
             <Button Name="btnClear"
                     Content="CLEAR"
                     Height="30"
                     Width="70"
                     Margin="5,0"
-                    Command="{Binding Path=ClearCommand}">
+                    Command="{Binding DataContext.ClearCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
             </Button>
             <Button Name="btnUpdate"
-            Content="UPDATE"
-            Height="30"
-            Width="70"
-            Margin="5,0"
-            Command="{Binding Path=UpdateCommand}">
+                    Content="UPDATE"
+                    Height="30"
+                    Width="70"
+                    Margin="5,0"
+                    Command="{Binding DataContext.UpdateCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="True">
+                            <DataTrigger Binding="{Binding Path=IsStudentIdReadOnly}" Value="True">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -116,16 +115,16 @@
                 </Button.Style>
             </Button>
             <Button Name="btnAdd"
-            Content="ADD" 
-            Height="30"
-            Width="60"
-            Margin="5,0"
-            Command="{Binding Path=SaveCommand}">
+                    Content="ADD" 
+                    Height="30"
+                    Width="60"
+                    Margin="5,0"
+                    Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=CurrentStudent.IsStudentIdReadOnly}" Value="False">
+                            <DataTrigger Binding="{Binding Path=IsStudentIdReadOnly}" Value="False">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
