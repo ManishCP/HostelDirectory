@@ -8,8 +8,28 @@ namespace HostelDirectoryMvvM.ViewModels
         private readonly StudentService _studentService;
         private readonly RelayCommand _deleteCommand;
         private bool _isStudentIdReadOnly;
+        private string _message;
 
-        public StudentDTO Student { get; }
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                _message = value;
+                OnPropertyChanged(nameof(Message));
+            }
+        }
+
+        private StudentDTO _student;
+        public StudentDTO Student
+        {
+            get => _student;
+            set
+            {
+                _student = value;
+                OnPropertyChanged(nameof(Student));
+            }
+        }
 
         public string StudentID
         {
@@ -52,6 +72,7 @@ namespace HostelDirectoryMvvM.ViewModels
         }
 
         public bool IsDeletable => Student.IsDeletable;
+
         public bool IsStudentIdReadOnly
         {
             get => _isStudentIdReadOnly;
@@ -65,15 +86,22 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
-
         public RelayCommand DeleteCommand => _deleteCommand;
 
         public StudentViewModel(StudentDTO student)
         {
-            Student = student;
+            _student = student;
             _studentService = new StudentService();
             _deleteCommand = new RelayCommand(Delete, () => IsDeletable);
             IsStudentIdReadOnly = Student.StudentID != null;
+        }
+
+        public void CopyFrom(StudentViewModel other)
+        {
+            this.StudentID = other.StudentID;
+            this.Name = other.Name;
+            this.Age = other.Age;
+            this.RoomNumber = other.RoomNumber;
         }
 
         private void Delete()

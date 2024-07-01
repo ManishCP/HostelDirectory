@@ -20,17 +20,6 @@ namespace HostelDirectoryMvvM.ViewModels
 
         #endregion
 
-        #region Message Property
-
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { _message = value; OnPropertyChanged(nameof(Message)); }
-        }
-
-        #endregion
-
         #region RelayCommand Implementation
 
         protected RelayCommand CreateCommand(Action execute)

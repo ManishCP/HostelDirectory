@@ -19,6 +19,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <!-- Header Text -->
@@ -58,7 +59,7 @@
         <!-- ListBox for Student List -->
         <ListBox x:Name="StudentListBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,10"
                  ItemsSource="{Binding Path=FilteredStudents}"
-                 SelectedItem="{Binding Path=CurrentStudent, Mode=TwoWay}"
+                 SelectedItem="{Binding Path=CurrentStudent, Mode=OneWayToSource}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseDown">
@@ -98,5 +99,14 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
+        <Button Name="btnAdd"
+                Content="ADD"
+                Height="30"
+                Width="70"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="5,0"
+                Command="{Binding AddCommand}">
+        </Button>
     </Grid>
 </UserControl>

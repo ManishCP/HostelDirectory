@@ -115,7 +115,7 @@
                 </Button.Style>
             </Button>
             <Button Name="btnAdd"
-                    Content="ADD" 
+                    Content="SAVE" 
                     Height="30"
                     Width="60"
                     Margin="5,0"
@@ -134,8 +134,9 @@
         </StackPanel>
 
         <TextBlock Name="txtBlockMessage"
-                   Grid.Row="6"
-                   Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
-                   Text="{Binding Path=Message}"/>
+           Grid.Row="6"
+           Grid.Column="1" Margin="5,8,8,5" Padding="3,3,3,3" 
+           Text="{Binding Path=Message}" />
+
     </Grid>
 </UserControl>

@@ -11,17 +11,13 @@ namespace HostelDirectoryMvvM.ViewModels
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            // Debugging to understand the selection process
-            if (item != null && item is StudentViewModel studentViewModel && !string.IsNullOrEmpty(studentViewModel.StudentID))
+            if (item is StudentViewModel)
             {
-                Debug.WriteLine($"Selecting template for {((StudentViewModel)item).GetType().Name}");
                 return StudentEditorViewTemplate;
             }
-            else
-            {
-                Debug.WriteLine($"Selecting EmptyViewTemplate");
-                return EmptyViewTemplate;
-            }
+            // Show EmptyViewTemplate when no student is selected
+            return EmptyViewTemplate;
         }
+
     }
 }

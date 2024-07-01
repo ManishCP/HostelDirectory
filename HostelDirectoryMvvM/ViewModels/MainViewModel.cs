@@ -2,11 +2,24 @@
 using HostelDirectoryMvvM.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
 
 namespace HostelDirectoryMvvM.ViewModels
 {
+    public class ValidationResult
+    {
+        public bool IsValid { get; private set; }
+        public string Message { get; private set; }
+
+        public ValidationResult(bool isValid, string message)
+        {
+            IsValid = isValid;
+            Message = message;
+        }
+    }
+
     public class MainViewModel : BaseViewModel
     {
         private readonly StudentService _studentService;
@@ -14,6 +27,21 @@ namespace HostelDirectoryMvvM.ViewModels
         private string _filter;
         private ObservableCollection<StudentViewModel> _studentsList;
         private ListCollectionView _filteredStudents;
+        private string _message;
+
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                OnPropertyChanged(nameof(Message));
+                if (CurrentStudent != null)
+                {
+                    CurrentStudent.Message = value;
+                }
+            }
+        }
 
         public ObservableCollection<StudentViewModel> StudentsList
         {
@@ -44,7 +72,7 @@ namespace HostelDirectoryMvvM.ViewModels
                 OnPropertyChanged(nameof(CurrentStudent));
                 if (_currentStudent != null)
                 {
-                    IsStudentIdReadOnly = _currentStudent.StudentID != null;
+                    IsStudentIdReadOnly = !string.IsNullOrEmpty(_currentStudent.StudentID);
                     if (IsStudentIdReadOnly)
                     {
                         Message = "Student Selected";
@@ -71,6 +99,7 @@ namespace HostelDirectoryMvvM.ViewModels
         public RelayCommand UpdateCommand { get; }
         public RelayCommand ClearCommand { get; }
         public RelayCommand ListBoxItemPreviewMouseDownCommand { get; }
+        public RelayCommand AddCommand { get; }
 
         public MainViewModel()
         {
@@ -83,6 +112,7 @@ namespace HostelDirectoryMvvM.ViewModels
             UpdateCommand = CreateCommand(Update);
             ClearCommand = CreateCommand(Clear);
             ListBoxItemPreviewMouseDownCommand = CreateCommand(DeselectOrReselectCurrentStudent);
+            AddCommand = CreateCommand(AddNewStudent);
 
             Messenger.Instance.Subscribe<DeleteMessage>(HandleDeleteMessage);
         }
@@ -113,6 +143,12 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
+        private void AddNewStudent()
+        {
+            CurrentStudent = new StudentViewModel(new StudentDTO()); // Create a new student view model
+            IsStudentIdReadOnly = false;  // Allow editing of ID for new student
+        }
+
         private void FilterStudents()
         {
             if (string.IsNullOrWhiteSpace(Filter))
@@ -129,13 +165,35 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
+        private ValidationResult ValidateStudent(StudentDTO student)
+        {
+            if (string.IsNullOrWhiteSpace(student.Name))
+            {
+                return new ValidationResult(false, "Student name cannot be empty.");
+            }
+
+            if (student.Age <= 0 || student.RoomNumber <= 0)
+            {
+                return new ValidationResult(false, "Age and room number must be greater than zero.");
+            }
+
+            if (student.Age < 21 || student.Age > 25)
+            {
+                return new ValidationResult(false, "Age limit for student is 21-25.");
+            }
+
+            return new ValidationResult(true, "");
+        }
+
         public void Save()
         {
             try
             {
-                if (CurrentStudent == null || string.IsNullOrEmpty(CurrentStudent.Name) || CurrentStudent.Age <= 0 || CurrentStudent.RoomNumber <= 0 || string.IsNullOrEmpty(CurrentStudent.StudentID))
+                ValidationResult validationResult = ValidateStudent(CurrentStudent.Student);
+
+                if (!validationResult.IsValid)
                 {
-                    Message = "Missing or invalid student information. Please check all fields.";
+                    Message = validationResult.Message;
                     return;
                 }
 
@@ -145,7 +203,8 @@ namespace HostelDirectoryMvvM.ViewModels
                     CurrentStudent.Student.IsDeletable = !_studentService.IsPredefinedStudent(CurrentStudent.StudentID);
                     StudentsList.Add(CurrentStudent);
                     OnPropertyChanged(nameof(StudentsList));
-                    ClearCurrentStudent();
+                    //ClearCurrentStudent();
+                    CurrentStudent.IsStudentIdReadOnly = true;
                     Message = "Student saved";
                 }
                 else
@@ -159,33 +218,50 @@ namespace HostelDirectoryMvvM.ViewModels
             }
         }
 
-
         public void Update()
         {
-            if (CurrentStudent == null || string.IsNullOrEmpty(CurrentStudent.Name) || CurrentStudent.Age <= 0 || CurrentStudent.RoomNumber <= 0)
+            var originalStudent = StudentsList.FirstOrDefault(s => s.StudentID == CurrentStudent.StudentID);
+            ValidationResult validationResult = ValidateStudent(CurrentStudent.Student);
+
+            if (originalStudent != null)
             {
-                Message = "Missing or invalid student information. Please check all fields.";
+                // Debug or log the values to ensure correctness
+                Debug.WriteLine($"Original Student: {originalStudent.StudentID} - {originalStudent.Age}");
+                Debug.WriteLine($"Current Student: {CurrentStudent.StudentID} - {CurrentStudent.Age}");
+
+                // Ensure Clone and CopyFrom methods are correctly implemented
+                CurrentStudent.CopyFrom(originalStudent);
+                OnPropertyChanged(nameof(StudentsList)); // Notify UI of the change
+            }
+
+            if (!validationResult.IsValid)
+            {
+                Message = validationResult.Message;
+                if (originalStudent != null)
+                {
+                    // Revert to original values
+                    CurrentStudent.CopyFrom(originalStudent);
+                    OnPropertyChanged(nameof(StudentsList));
+                }
                 return;
             }
-            else if (CurrentStudent.Age < 21 || CurrentStudent.Age > 25)
-            {
-                Message = "Age limit for student is 21-25";
-                return;
-            }
-            else
+
+            try
             {
                 var isUpdated = _studentService.Update(CurrentStudent.Student);
 
                 if (isUpdated)
                 {
-                    var student = StudentsList.FirstOrDefault(s => s.StudentID == CurrentStudent.StudentID);
-                    if (student != null)
+                    var studentToUpdate = StudentsList.FirstOrDefault(s => s.StudentID == CurrentStudent.StudentID);
+                    if (studentToUpdate != null)
                     {
                         // Update the student only if the update operation is successful
-                        student.Student.Name = CurrentStudent.Name;
-                        student.Student.Age = CurrentStudent.Age;
-                        student.Student.RoomNumber = CurrentStudent.RoomNumber;
+                        studentToUpdate.Student.Name = CurrentStudent.Name;
+                        studentToUpdate.Student.Age = CurrentStudent.Age;
+                        studentToUpdate.Student.RoomNumber = CurrentStudent.RoomNumber;
+
                         OnPropertyChanged(nameof(StudentsList));
+
                         Message = "Student updated";
                     }
                     else
@@ -198,8 +274,11 @@ namespace HostelDirectoryMvvM.ViewModels
                     Message = "Update Operation Failed!";
                 }
             }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
         }
-
 
         private void HandleDeleteMessage(DeleteMessage message)
         {
@@ -220,13 +299,13 @@ namespace HostelDirectoryMvvM.ViewModels
 
         public void ClearCurrentStudent()
         {
-            CurrentStudent = new StudentViewModel(new StudentDTO());
+            CurrentStudent = null; // Clear CurrentStudent to prevent showing invalid data in the list
             Message = "Student deselected";
         }
 
         public void Clear()
         {
-            CurrentStudent = new StudentViewModel(new StudentDTO());
+            CurrentStudent = null; // Clear CurrentStudent
             Message = "";
         }
     }
