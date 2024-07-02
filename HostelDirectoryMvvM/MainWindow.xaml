@@ -40,7 +40,7 @@
 
         <!-- Use ContentControl to display the selected view -->
         <ContentControl Grid.Column="2"
-                        Content="{Binding CurrentStudent}"
+                        Content="{Binding TemporaryStudent}"
                         ContentTemplateSelector="{StaticResource StudentDataTemplateSelector}" />
     </Grid>
 </Window>

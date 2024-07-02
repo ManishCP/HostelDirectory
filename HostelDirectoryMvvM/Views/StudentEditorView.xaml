@@ -57,7 +57,7 @@
         <TextBox Name="txtId"
                  Grid.Row="1"
                  Grid.Column="1"
-                 Text="{Binding Path=StudentID, Mode=TwoWay}">
+                 Text="{Binding StudentID, Mode=TwoWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource StudentIDTextBoxStyle}">
                     <Style.Triggers>
@@ -75,15 +75,15 @@
         <TextBox Name="txtName"
                  Grid.Row="2"
                  Grid.Column="1" 
-                 Text="{Binding Path=Name, Mode=TwoWay}"/>
+                 Text="{Binding Name, Mode=TwoWay}"/>
         <TextBox Name="txtAge"
                  Grid.Row="3"
                  Grid.Column="1"
-                 Text="{Binding Path=Age, Mode=TwoWay}"/>
+                 Text="{Binding Age, Mode=TwoWay}"/>
         <TextBox Name="txtRoomNumber"
                  Grid.Row="4"
                  Grid.Column="1"
-                 Text="{Binding Path=RoomNumber, Mode=TwoWay}"/>
+                 Text="{Binding RoomNumber, Mode=TwoWay}"/>
 
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"

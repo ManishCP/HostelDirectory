@@ -59,14 +59,14 @@
         <!-- ListBox for Student List -->
         <ListBox x:Name="StudentListBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,10"
                  ItemsSource="{Binding Path=FilteredStudents}"
-                 SelectedItem="{Binding Path=CurrentStudent, Mode=OneWayToSource}"
+                 SelectedItem="{Binding Path=CurrentStudent, Mode=TwoWay}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewMouseDown">
                     <i:InvokeCommandAction Command="{Binding ListBoxItemPreviewMouseDownCommand}"
                            CommandParameter="{Binding ElementName=StudentListBox, Path=SelectedItem}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                </i:EventTrigger> 
+            </i:Interaction.Triggers> -->
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Style="{StaticResource StudentBorderStyle}" HorizontalAlignment="Stretch">
